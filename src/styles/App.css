@@ -1,0 +1,25 @@
+* {
+  font-family: 'Libre Baskerville', serif;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.title-content {
+  margin-top: 20rem;
+  flex-wrap: wrap;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.title {
+  width: 25rem;
+}
