@@ -10,8 +10,7 @@ body {
 }
 
 .title-content {
-  margin-top: 20rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   height: 6rem;
   display: flex;
   justify-content: center;

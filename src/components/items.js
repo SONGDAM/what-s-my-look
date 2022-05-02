@@ -1,6 +1,4 @@
-import '../assets';
-
-const items = [
+export const items = [
   {
     id: 1,
     name: '4_1_c',
@@ -570,6 +568,30 @@ const items = [
   },
 ];
 
-console.log(items[0]);
-
-export default items;
+// export const titleItems = [
+//   {
+//     id: 1,
+//     name: 'fw1.jpg',
+//     src: require('../assets/main/fw1.jpg'),
+//   },
+//   {
+//     id: 2,
+//     name: 'fw2.jpg',
+//     src: require('../assets/main/fw2.jpg'),
+//   },
+//   {
+//     id: 3,
+//     name: 'fw3.jpg',
+//     src: require('../assets/main/fw3.jpg'),
+//   },
+//   {
+//     id: 4,
+//     name: 'fw4.jpg',
+//     src: require('../assets/main/fw4.jpg'),
+//   },
+//   {
+//     id: 5,
+//     name: 'fw5.jpg',
+//     src: require('../assets/main/fw5.jpg'),
+//   },
+// ];

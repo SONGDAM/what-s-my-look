@@ -1,19 +1,23 @@
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { items } from './items';
 
 function Carousel() {
   const settings = {
+    autoplay: false,
     dots: true,
-    infinite: true,
-    speed: 500,
+    lazyload: true,
     slidesToShow: 1,
-    slidesToScroll: 1,
+    centerMode: true,
+    centerPadding: 0,
   };
 
   return (
     <Slider {...settings}>
-      <div>asfasf</div>
+      <div>
+        <img src={items[0].src} />
+      </div>
       <div>2</div>
       <div>3</div>
       <div>4</div>
