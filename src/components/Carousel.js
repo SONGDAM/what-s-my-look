@@ -18,9 +18,6 @@ function Carousel() {
       <div>
         <img src={items[0].src} />
       </div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
     </Slider>
   );
 }
