@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import '../styles/Carousel.css';
 
 function WeatherInfo() {
   const [weather, setWeather] = useState({
@@ -44,8 +45,10 @@ function WeatherInfo() {
 
   return (
     <div className='title'>
-      <p>{weather.city}</p>
-      <div>{`${Math.round(weather.temp)}℃`}</div>
+      <h2>{weather.city}</h2>
+      <h3>
+        {weather.temp ? `Now: ${Math.round(weather.temp)}℃` : 'Loading...'}
+      </h3>
     </div>
   );
 }
