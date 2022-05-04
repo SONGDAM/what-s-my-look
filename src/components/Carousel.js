@@ -1,9 +1,9 @@
+import { titleItems } from './items';
+import WeatherInfo from './WeatherInfo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../styles/Carousel.css';
-import { titleItems } from './items';
-import WeatherInfo from './WeatherInfo';
 
 function Carousel() {
   const settings = {
