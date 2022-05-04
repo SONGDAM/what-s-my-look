@@ -1,49 +1,45 @@
-/* @import '~slick-carousel/slick/slick.css';
-@import '~slick-carousel/slick/slick-theme.css';
-
-.App {
-  width: 50%;
-  margin: 10rem auto;
-  height: 570px;
+.title-image {
+  display: block;
+  position: relative;
+  max-width: 100%;
+  object-fit: cover;
+  height: 100vh;
 }
 
-.slide img {
-  width: 20rem;
-  margin: 0 auto;
+.title-content {
+  padding: 0 4rem;
+  position: fixed;
+  text-align: center;
+  bottom: 1.5rem;
+  text-shadow: 4px 2px 2px gray;
+  line-height: 2;
+  letter-spacing: 0.01;
+  color: #fff;
 }
 
-.slide {
-  transform: scale(0.2);
-  transition: transform 300ms;
-  opacity: 0.5;
-}
+@media screen and (min-width: 768px) {
+  .title-image {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    object-position: top;
+  }
 
-.activeSlide {
-  transform: scale(1.1);
-  opacity: 1;
-}
+  .title-content {
+    padding: 0 4rem;
+    position: fixed;
+    top: 3rem;
+    font-size: 2rem;
+    text-align: left;
+    text-shadow: 4px 2px 2px gray;
+    line-height: 2;
+    letter-spacing: 0.01;
+    color: #fff;
+  }
 
-.arrow {
-  background-color: #fff;
-  position: absolute;
-  cursor: pointer;
-  z-index: 10;
+  .title h3 {
+    font-size: 2.2rem;
+  }
 }
-
-.arrow svg {
-  transition: color 300ms;
-}
-
-.arrow svg:hover {
-  color: #68edff;
-}
-
-.next {
-  right: 0%;
-  top: 50%;
-}
-
-.prev {
-  left: 0%;
-  top: 50%;
-} */
