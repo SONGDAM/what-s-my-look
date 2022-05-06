@@ -1,0 +1,30 @@
+@media screen and (max-width: 768px) {
+  .temp_look_img_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .temp_look_img {
+    width: 100%;
+    margin: 1.5rem 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .temp_look_img_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .temp_look_img {
+    object-fit: cover;
+    object-position: center;
+    height: 500px;
+    width: 350px;
+    margin: 1.5rem;
+  }
+}
