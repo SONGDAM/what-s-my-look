@@ -1,4 +1,4 @@
-export const items = [
+export const images = [
   {
     id: 1,
     name: '4_1_c',
@@ -568,7 +568,7 @@ export const items = [
   },
 ];
 
-export const titleItems = [
+export const titleImages = [
   {
     id: 1,
     name: 'fw1.jpg',

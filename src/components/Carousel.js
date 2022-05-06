@@ -1,4 +1,4 @@
-import { titleItems } from './items';
+import { titleImages } from './images';
 import WeatherInfo from './WeatherInfo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -21,15 +21,15 @@ function Carousel() {
 
   return (
     <Slider {...settings} className='slick-slider'>
-      {titleItems.map((item) => (
+      {titleImages.map((image) => (
         <>
-          <div key={item.id}>
-            <img src={item.src} alt={''} className='title-image' />
+          <div key={image.id}>
+            <img src={image.src} alt={''} className='title-image' />
           </div>
           <>
-            <div className='title-content' key={item.id}>
+            <div className='title-content' key={image.id}>
               <h1>what &#8217;s my look?</h1>
-              <WeatherInfo key={item.id} />
+              <WeatherInfo key={image.id} />
             </div>
           </>
         </>
