@@ -1,14 +1,13 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import Carousel from './components/Carousel';
 import TemperatureImages from './components/TemperatureImages';
-import Comment from './components/Comment';
+// import Comment from './components/Comment';
 import './styles/global.css';
 
 // context 셍성
 export const weatherStateContext = createContext(null);
 
 function App() {
-  //날씨 정보를 관리하는 state
   const [weather, setWeather] = useState({
     city: '',
     temp: '',
@@ -53,7 +52,7 @@ function App() {
     <>
       <weatherStateContext.Provider value={weather}>
         <Carousel />
-        <Comment />
+        {/* <Comment /> */}
         <TemperatureImages />
       </weatherStateContext.Provider>
     </>
