@@ -4,6 +4,9 @@
   max-width: 100%;
   object-fit: cover;
   height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-align: start;
+  scroll-snap-type: y mandatory;
 }
 
 .title-content {
@@ -16,6 +19,7 @@
   letter-spacing: 0.01;
   color: #fff;
 }
+/* Desktop */
 
 @media screen and (min-width: 768px) {
   .title-image {

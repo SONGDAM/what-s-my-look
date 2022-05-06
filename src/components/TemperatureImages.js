@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { images } from './images';
 import { weatherStateContext } from '../App';
 import '../styles/TemperatureImages.css';
@@ -7,45 +7,48 @@ import '../styles/TemperatureImages.css';
 
 function TemperatureImages() {
   const context = useContext(weatherStateContext);
+  // 자주변경되는 건 state로 관리하는 게 좋은데 이런경우는 context에서 Math.round를 해야 될 것 같음..
   const temp = Math.round(context.temp);
+
   const [look_temp, set_look_temp] = useState(0);
 
   console.log('temp', temp);
   console.log(context.city);
 
   //기온을 이미지 기온과 맞춤, 조건문 가독성있게 고치기...
-  useEffect(() => {
-    if (temp >= 27) {
-      set_look_temp(27);
-    } else if (temp >= 22) {
-      set_look_temp(22);
-    } else if (temp >= 19) {
-      set_look_temp(19);
-    } else if (temp >= 16) {
-      set_look_temp(16);
-    } else if (temp >= 11) {
-      set_look_temp(11);
-    } else if (temp >= 4) {
-      set_look_temp(8);
-    } else if (temp <= 4) {
-      set_look_temp(4);
-    }
-  }, []);
+  //다시 리렌더링 되는 방향 생각. useEffect는 컴포넌트 최초 마운트시 실행됨 (빈배열기준) .
+  // 함수형 업데이트 렌더? 리턴 생각하기
+  const filterTemp = {
+    high: 24 <= 30,
+    middle: 18 <= 20,
+    low: 5 < 10,
+  };
+
+  const { high, middle, low } = filterTemp;
+
+  switch (filterTemp) {
+    case temp >= 27:
+      return set_look_temp(high);
+    case temp >= 19:
+      return set_look_temp(middle);
+    case temp >= 10:
+      return set_look_temp(low);
+    default:
+      false;
+  }
 
   console.log('look_temp', look_temp);
 
-  const temp_look_filter = images.filter(
-    (img) => img.temperature === look_temp
-  );
-
-  const temp_look_map = temp_look_filter.map((item) => (
-    <img src={item.src} key={item.id} className='temp_look_img' />
-  ));
+  const filteredLook = images.filter((img) => img.temperature === look_temp);
 
   return (
     <>
       {/* <TemperatureComment /> */}
-      <div className='temp_look_img_container'>{temp_look_map}</div>
+      {temp === look_temp
+        ? filteredLook.map((item) => (
+            <img src={item.src} key={item.id} className='temp_look_img' />
+          ))
+        : null}
     </>
   );
 }
