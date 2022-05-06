@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { images } from './Images';
+import { images } from './images';
 import { weatherStateContext } from '../App';
 import '../styles/TemperatureImages.css';
 

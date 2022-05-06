@@ -1,4 +1,4 @@
-import { titleImages } from './Images';
+import { titleImages } from './images';
 import WeatherInfo from './WeatherInfo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
