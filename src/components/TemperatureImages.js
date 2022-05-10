@@ -1,5 +1,5 @@
 import { images } from './images';
-import { weatherStateContext } from '../App';
+import { weatherStateContext } from '../routes/Home';
 import '../styles/TemperatureImages.css';
 import { useContext } from 'react';
 

@@ -1,6 +1,6 @@
 import '../styles/Carousel.css';
 import React, { useContext } from 'react';
-import { weatherStateContext } from '../App';
+import { weatherStateContext } from '../routes/Home';
 
 function WeatherInfo() {
   //context로 데이터 받아오기(temp, city)
