@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
 import Carousel from './components/Carousel';
 import TemperatureImages from './components/TemperatureImages';
-// import Comment from './components/Comment';
+import Comment from './components/Comment';
 import './styles/global.css';
 
 // context 셍성
@@ -52,7 +52,7 @@ function App() {
     <>
       <weatherStateContext.Provider value={weather}>
         <Carousel />
-        {/* <Comment /> */}
+        <Comment />
         <TemperatureImages />
       </weatherStateContext.Provider>
     </>

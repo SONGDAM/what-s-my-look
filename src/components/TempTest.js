@@ -10,34 +10,8 @@ function TemperatureImages() {
   const temp = Math.round(context.temp);
   console.log('temp', temp);
 
-  const [imgTemp, setImgTemp] = useState(temp);
+  const [imgTemp, setImgTemp] = useState(0);
 
-  //   switch (temp) {
-  //     case '>= 28':
-  //       // return console.log('28도 이상임');
-  //       return setImgTemp(28);
-  //     case temp >= 23:
-  //       // return console.log('23도 이상임');
-  //       return setImgTemp(23);
-  //     case temp >= 20:
-  //       // return console.log('20도 이상임');
-  //       return setImgTemp(20);
-  //     case temp >= 17:
-  //       // return console.log('17도 이상임');
-  //       return setImgTemp(17);
-  //     case temp >= 12:
-  //       // return console.log('12도 이상임');
-  //       return setImgTemp(12);
-  //     case temp >= 9:
-  //       // return console.log('9도 이상임');
-  //       return setImgTemp(9);
-  //     case temp >= 5:
-  //       // return console.log('5도 이상임');
-  //       return setImgTemp(5);
-  //     case temp <= 4:
-  //       // return console.log('4도 이하');
-  //       return setImgTemp(4);
-  //   }
   useEffect(() => {
     if (temp >= 28) {
       return setImgTemp(28);
