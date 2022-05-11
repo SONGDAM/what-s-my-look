@@ -1,6 +1,6 @@
 import { weatherStateContext } from '../App';
 import { useContext } from 'react';
-import '../styles/TemperatureComment.css';
+import '../styles/Comment.css';
 
 function Comment() {
   const context = useContext(weatherStateContext);
@@ -16,16 +16,53 @@ function Comment() {
   // early return 분기 최소화...
   // 객체 직접수정 노노
 
+  // const Comment = {
+  //   highTempComment: '기분좋은 바람이 부는 오늘, 이런 룩은 어떠세요',
+  //   lowTempComment: '오늘의 룩을 추천해드려요',
+  // };
   const Comment = {
-    highTempComment: '기분좋은 바람이 부는 오늘, 이런 룩은 어떠세요',
-    lowTempComment: '오늘의 룩을 추천해드려요',
+    temp4: {
+      1: '온도 4-1',
+      2: '온도 4-2',
+    },
+    temp5: {
+      1: '온도 5-1',
+      2: '온도 5-2',
+    },
+    temp9: {
+      1: '온도 9-1',
+      2: '온도 9-2',
+    },
+    temp12: {
+      1: '온도 12-1',
+      2: '온도 12-2',
+    },
+    temp17: {
+      1: '온도 17-1',
+      2: '온도 17-2',
+    },
+    temp20: {
+      1: '온도 20-1',
+      2: '온도 20-2',
+    },
+    temp23: {
+      1: '온도 23-1',
+      2: '온도 23-2',
+    },
+    temp28: {
+      1: '온도 28-1',
+      2: '온도 28-2',
+    },
   };
 
+  console.log(Comment);
   //recommend_script배열의 내용을 랜덤값으로 불러옴
+
+  // const comment
 
   return (
     <div className='recommend_script'>
-      {temp < 10 ? Comment.highTempComment : Comment.lowTempComment}
+      {temp > 10 ? Comment.temp4[2] : Comment.temp4[1]}
     </div>
   );
 }

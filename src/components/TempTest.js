@@ -1,7 +1,7 @@
-import { images } from './images';
-import { weatherStateContext } from '../routes/Home';
+import { weatherStateContext } from '../App';
 import '../styles/TemperatureImages.css';
 import { useContext, useEffect, useState } from 'react';
+import { images } from './images';
 
 // import TemperatureComment from './TemperatureComent';
 
@@ -10,7 +10,7 @@ function TemperatureImages() {
   const temp = Math.round(context.temp);
   console.log('temp', temp);
 
-  const [imgTemp, setImgTemp] = useState(temp);
+  const [imgTemp, setImgTemp] = useState(0);
 
   useEffect(() => {
     if (temp >= 28) {
