@@ -1,13 +1,23 @@
+@font-face {
+  font-family: 'MaruBuri-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .recommend_script {
+  font-family: 'MaruBuri-Regular';
   font-size: 1.2rem;
   text-align: center;
   padding: 1.5rem 1.5rem 0 1.5rem;
 }
+
 @media screen and (min-width: 768px) {
   .recommend_script {
     font-size: 2rem;
     text-align: center;
-    padding-top: 3rem;
-    padding-bottom: 1.5rem;
+    padding: 1rem;
+    margin: 4rem 2rem 0 2rem;
   }
 }

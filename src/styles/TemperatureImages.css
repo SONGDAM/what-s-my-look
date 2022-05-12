@@ -13,6 +13,33 @@
   margin: 2rem 0;
 }
 
+.lookBtns {
+  text-align: center;
+  padding: 2rem 0rem;
+}
+
+.lookBtnDefault {
+  padding: 0.3rem 0.6rem;
+  margin: 0.4rem 0.3rem;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 30px;
+  box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
+}
+
+.lookBtnClicked {
+  padding: 0.3rem 0.6rem;
+  margin: 0.4rem 0.3rem;
+  background-color: rgb(235 235 235);
+  border: 3px solid dimgray;
+  border-radius: 30px;
+  box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
+}
+
+.lookBtnDefault:hover {
+  background-color: rgb(243, 243, 243);
+}
+
 @media screen and (min-width: 768px) {
   .temp_look_img_container {
     display: flex;
@@ -28,5 +55,27 @@
     height: 18rem;
     line-height: 2;
     margin: 2rem 2rem;
+  }
+
+  .lookBtnDefault {
+    padding: 0.5rem 2rem;
+    margin: 0 1rem;
+    font-size: 1rem;
+    background-color: white;
+    border-radius: 30px;
+    border: 1px solid gray;
+    cursor: pointer;
+    box-shadow: 5px 5px 9px -3px #969696;
+  }
+
+  .lookBtnClicked {
+    padding: 0.5rem 2rem;
+    margin: 0 1rem;
+    font-size: 1rem;
+    background-color: rgb(235 235 235);
+    border-radius: 30px;
+    border: 3px solid dimgray;
+    box-shadow: 5px 5px 9px -3px #969696;
+    cursor: pointer;
   }
 }
