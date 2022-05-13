@@ -13,8 +13,6 @@
   margin: 2rem 0;
 }
 
-<<<<<<< Updated upstream
-=======
 .filter {
   text-align: center;
   padding: 2rem 0.5rem;
@@ -42,7 +40,6 @@
   background-color: rgb(243, 243, 243);
 }
 
->>>>>>> Stashed changes
 @media screen and (min-width: 768px) {
   .image-container {
     margin: 0 auto;
@@ -61,8 +58,6 @@
     line-height: 2;
     margin: 2rem 2rem;
   }
-<<<<<<< Updated upstream
-=======
 
   .filter-button--default {
     padding: 0.5rem 2rem;
@@ -80,5 +75,4 @@
     cursor: pointer;
     box-shadow: 5px 5px 9px -3px #969696;
   }
->>>>>>> Stashed changes
 }

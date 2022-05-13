@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-.recommend_script {
-=======
 @font-face {
   font-family: 'MaruBuri-Regular';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff')
@@ -11,7 +8,6 @@
 
 .comment {
   font-family: 'MaruBuri-Regular';
->>>>>>> Stashed changes
   font-size: 1.2rem;
   text-align: center;
   padding: 0 2rem;

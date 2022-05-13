@@ -2,6 +2,7 @@ import { images } from './images';
 import { weatherStateContext } from '../routes/Home';
 import '../styles/TemperatureImages.css';
 import { useContext, useEffect, useState } from 'react';
+import Comment from './Comment';
 
 // import TemperatureComment from './TemperatureComent';
 
@@ -10,9 +11,6 @@ function TemperatureImages() {
   const temp = Math.round(context.temp);
   console.log('temp', temp);
 
-<<<<<<< Updated upstream
-  const [imgTemp, setImgTemp] = useState(temp);
-=======
   const [imgTemp, setImgTemp] = useState(0);
   const [isLookBtnClick, setIsLookBtnClick] = useState(
     parseInt(Math.random() * 5)
@@ -39,7 +37,6 @@ function TemperatureImages() {
       )
     );
   };
->>>>>>> Stashed changes
 
   useEffect(() => {
     if (temp >= 28) {
@@ -60,24 +57,10 @@ function TemperatureImages() {
       return setImgTemp(4);
     }
   }, [imgTemp, temp]);
-<<<<<<< Updated upstream
-
-  console.log('lookTemp', imgTemp);
-=======
->>>>>>> Stashed changes
 
   const sortFilter = images.filter((img) => img.temperature === imgTemp);
   console.log('sortFilter', sortFilter);
   return (
-<<<<<<< Updated upstream
-    <div className='temp_look_img_container'>
-      {sortFilter
-        ? sortFilter.map((item) => (
-            <img src={item.src} key={item.id} className='temp_look_img' />
-          ))
-        : null}
-    </div>
-=======
     <>
       <Comment look={isLookBtnClick} />
       <div className='filter'>
@@ -115,7 +98,6 @@ function TemperatureImages() {
         </div>
       </div>
     </>
->>>>>>> Stashed changes
   );
 }
 
