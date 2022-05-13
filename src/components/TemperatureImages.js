@@ -10,7 +10,36 @@ function TemperatureImages() {
   const temp = Math.round(context.temp);
   console.log('temp', temp);
 
+<<<<<<< Updated upstream
   const [imgTemp, setImgTemp] = useState(temp);
+=======
+  const [imgTemp, setImgTemp] = useState(0);
+  const [isLookBtnClick, setIsLookBtnClick] = useState(
+    parseInt(Math.random() * 5)
+  );
+  const [sortImgArray, setSortImgArray] = useState(images);
+
+  console.log('sortImgArray', sortImgArray);
+  console.log('isLookBtnClick', isLookBtnClick);
+
+  const lookList = ['Amekaji', 'Casual', 'Modern', 'Romantic', 'Street'];
+
+  //Look버튼 클릭 시
+  const lookOnclickHandler = (index, e) => {
+    const lookName = e.target.textContent;
+    console.log('look', index, lookName);
+
+    //index값이랑 isLookBtnClick값 동일 시 스타일 해제 및 적용
+    index === isLookBtnClick ? setIsLookBtnClick('') : setIsLookBtnClick(index);
+
+    //룩별 , 온도별로 이미지 필터링
+    setSortImgArray(
+      sortImgArray.filter(
+        (img) => img.look === lookName && img.temperature === imgTemp
+      )
+    );
+  };
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (temp >= 28) {
@@ -31,12 +60,16 @@ function TemperatureImages() {
       return setImgTemp(4);
     }
   }, [imgTemp, temp]);
+<<<<<<< Updated upstream
 
   console.log('lookTemp', imgTemp);
+=======
+>>>>>>> Stashed changes
 
   const sortFilter = images.filter((img) => img.temperature === imgTemp);
   console.log('sortFilter', sortFilter);
   return (
+<<<<<<< Updated upstream
     <div className='temp_look_img_container'>
       {sortFilter
         ? sortFilter.map((item) => (
@@ -44,6 +77,45 @@ function TemperatureImages() {
           ))
         : null}
     </div>
+=======
+    <>
+      <Comment look={isLookBtnClick} />
+      <div className='filter'>
+        {lookList.map((look, index) => {
+          return (
+            <button
+              key={index}
+              onClick={(e) => {
+                lookOnclickHandler(index, e);
+              }}
+              className={
+                isLookBtnClick === index
+                  ? 'filter-button--focused'
+                  : 'filter-button--default'
+              }
+            >
+              {look}
+            </button>
+          );
+        })}
+      </div>
+      <div className='image-container'>
+        <div className='image-wrapper'>
+          {sortImgArray.length > 0
+            ? sortImgArray
+                .filter(
+                  (item) =>
+                    lookList[isLookBtnClick] === item.look &&
+                    item.temperature === imgTemp
+                )
+                .map((item) => (
+                  <img src={item.src} key={item.id} className='image-item' />
+                ))
+            : setSortImgArray(images)}
+        </div>
+      </div>
+    </>
+>>>>>>> Stashed changes
   );
 }
 

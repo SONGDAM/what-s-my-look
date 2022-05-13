@@ -6,6 +6,7 @@ function Comment() {
   const context = useContext(weatherStateContext);
   const temp = Math.round(context.temp);
 
+<<<<<<< Updated upstream
   //객체의 불변성을 고려햐여 state나 새로운 배열 생성
   // https://hsp0418.tistory.com/171
   //underbar말고 카멜케이스로 갑시다..
@@ -63,6 +64,29 @@ function Comment() {
   return (
     <div className='recommend_script'>
       {temp > 10 ? Comment.temp4[2] : Comment.temp4[1]}
+=======
+  //props에서 받은 isClick -> look이름으로 변환
+  function lookName() {
+    switch (props.look) {
+      case 0:
+        return 'Amekaji';
+      case 1:
+        return 'Casual';
+      case 2:
+        return 'Modern';
+      case 3:
+        return 'Romantic';
+      case 4:
+        return 'Street';
+    }
+  }
+
+  return (
+    <div>
+      <div className='comment'>
+        현재 {temp} °C 에 맞는 {lookName(props.look)} 룩을 추천해드려요
+      </div>
+>>>>>>> Stashed changes
     </div>
   );
 }
