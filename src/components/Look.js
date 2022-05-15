@@ -3,7 +3,6 @@ import Comment from './Comment';
 import { weatherStateContext } from '../routes/Home';
 import '../styles/TemperatureImages.css';
 import { useContext, useEffect, useState } from 'react';
-import Comment from './Comment';
 
 //if문 바깥으로 빼고 if문의 결과를 리턴하는 함수를 만들어서 그함수를 useEffect에서 실행해보기
 
@@ -56,7 +55,7 @@ function TemperatureImages() {
     } else if (temp <= 4) {
       return setImgTemp(4);
     }
-  }, [imgTemp, temp, imgArray]);
+  }, [imgTemp, temp]);
 
   const sortFilter = images.filter((img) => img.temperature === imgTemp);
   console.log('sortFilter', sortFilter);
@@ -76,23 +75,6 @@ function TemperatureImages() {
                   ? 'filter-button--focused'
                   : 'filter-button--default'
               }
-
-  // const sortImgFilter = images.filter((img) => img.temperature === imgTemp);
-  // console.log('sortImgFilter', sortImgFilter);
-
-  return (
-    <>
-      <Comment look={isClick} />
-      <div className='lookBtns'>
-        {lookList.map((look, i) => {
-          return (
-            <button
-              key={i}
-              onClick={() => {
-                lookOnclickHandler(look, i);
-              }}
-              className={isClick === i ? 'lookBtnClicked' : 'lookBtnDefault'}
-
             >
               {look}
             </button>
@@ -118,5 +100,47 @@ function TemperatureImages() {
     </>
   );
 }
+
+// const sortImgFilter = images.filter((img) => img.temperature === imgTemp);
+// console.log('sortImgFilter', sortImgFilter);
+
+//   return (
+//     <>
+//       <Comment look={isClick} />
+//       <div className='lookBtns'>
+//         {lookList.map((look, i) => {
+//           return (
+//             <button
+//               key={i}
+//               onClick={() => {
+//                 lookOnclickHandler(look, i);
+//               }}
+//               className={isClick === i ? 'lookBtnClicked' : 'lookBtnDefault'}
+
+//             >
+//               {look}
+//             </button>
+//           );
+//         })}
+//       </div>
+
+//       <div className='image-container'>
+//         <div className='image-wrapper'>
+//           {sortImgArray.length > 0
+//             ? sortImgArray
+//                 .filter(
+//                   (item) =>
+//                     lookList[isLookBtnClick] === item.look &&
+//                     item.temperature === imgTemp
+//                 )
+//                 .map((item) => (
+//                   <img src={item.src} key={item.id} className='image-item' />
+//                 ))
+//             : setSortImgArray(images)}
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
 
 export default TemperatureImages;

@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
 import Carousel from '../components/Carousel';
-import TemperatureImages from '../components/TemperatureImages';
+import Look from '../components/Look';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
 
@@ -53,7 +53,7 @@ function Home() {
       <weatherStateContext.Provider value={weather}>
         <NavBar />
         <Carousel />
-        <TemperatureImages />
+        <Look />
       </weatherStateContext.Provider>
     </>
   );
