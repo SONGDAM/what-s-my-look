@@ -1,4 +1,4 @@
-.temp_look_img_container {
+.image-wrapper {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -6,28 +6,32 @@
   align-items: center;
 }
 
-.temp_look_img {
+.image-item {
   object-fit: cover;
   width: 100%;
   height: 500px;
   margin: 2rem 0;
 }
 
-.lookBtns {
+
+.filter {
   text-align: center;
-  padding: 2rem 0rem;
+  padding: 2rem 0.5rem;
 }
 
-.lookBtnDefault {
+.filter-button--default {
   padding: 0.3rem 0.6rem;
-  margin: 0.4rem 0.3rem;
+  margin: 0.4rem 0.5rem;
+
   background-color: white;
   border: 1px solid gray;
   border-radius: 30px;
   box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
 }
 
-.lookBtnClicked {
+
+.filter-button--focused {
+
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.3rem;
   background-color: rgb(235 235 235);
@@ -36,46 +40,47 @@
   box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
 }
 
-.lookBtnDefault:hover {
+
+.filter-button--default:hover {
   background-color: rgb(243, 243, 243);
 }
 
 @media screen and (min-width: 768px) {
-  .temp_look_img_container {
-    display: flex;
-    margin-right: 1rem;
-    flex-wrap: wrap;
+  .image-container {
+    margin: 0 auto;
+  }
+
+  .image-wrapper {
+    width: 80vw;
+    margin: 0 auto;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
   }
-  .temp_look_img {
-    object-fit: cover;
-    width: 13rem;
-    height: 18rem;
+
+  .image-item {
+    width: 15rem;
+    height: 21rem;
     line-height: 2;
     margin: 2rem 2rem;
   }
 
-  .lookBtnDefault {
+
+  .filter-button--default {
     padding: 0.5rem 2rem;
-    margin: 0 1rem;
+    margin: 0.8rem 1rem;
     font-size: 1rem;
-    background-color: white;
-    border-radius: 30px;
-    border: 1px solid gray;
     cursor: pointer;
     box-shadow: 5px 5px 9px -3px #969696;
   }
 
-  .lookBtnClicked {
+
+  .filter-button--focused {
     padding: 0.5rem 2rem;
     margin: 0 1rem;
     font-size: 1rem;
-    background-color: rgb(235 235 235);
-    border-radius: 30px;
     border: 3px solid dimgray;
-    box-shadow: 5px 5px 9px -3px #969696;
     cursor: pointer;
+    box-shadow: 5px 5px 9px -3px #969696;
+
   }
-}
+

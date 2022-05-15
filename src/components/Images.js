@@ -2,21 +2,24 @@ export const images = [
   {
     id: 1,
     name: '4_1_c',
-    temperature: 4,
+    temperature: 0,
     look: 'Casual',
     src: require('../assets/attire/4_1_c.jpg'),
   },
   {
     id: 2,
     name: '4_2_c',
-    temperature: 4,
+
+    temperature: 0,
+
+
     look: 'Casual',
     src: require('../assets/attire/4_2_c.jpg'),
   },
   {
     id: 3,
     name: '4_3_m',
-    temperature: 4,
+    temperature: 0,
     look: 'Modern',
     src: require('../assets/attire/4_3_m.jpg'),
   },

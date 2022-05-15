@@ -5,8 +5,7 @@ import '../styles/Comment.css';
 function Comment(props) {
   const context = useContext(weatherStateContext);
   const temp = Math.round(context.temp);
-  console.log(temp);
-  console.log('props', props);
+
 
   //props에서 받은 isClick -> look이름으로 변환
   function lookName() {
@@ -26,7 +25,9 @@ function Comment(props) {
 
   return (
     <div>
+      <div className='comment'>
       <div className='recommend_script'>
+
         현재 {temp} °C 에 맞는 {lookName(props.look)} 룩을 추천해드려요
       </div>
     </div>
