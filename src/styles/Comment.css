@@ -6,6 +6,7 @@
   font-style: normal;
 }
 
+
 .comment {
   font-family: 'MaruBuri-Regular';
   font-size: 1.2rem;
@@ -15,11 +16,12 @@
   word-break: keep-all;
   line-height: 2rem;
 }
+
 @media screen and (min-width: 768px) {
   .comment {
     font-size: 2rem;
     text-align: center;
-    padding-top: 3rem;
-    padding-bottom: 1.5rem;
+    padding: 1rem;
+    margin: 4rem 2rem 0 2rem;
   }
 }

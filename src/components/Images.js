@@ -9,7 +9,10 @@ export const images = [
   {
     id: 2,
     name: '4_2_c',
+
     temperature: 0,
+
+
     look: 'Casual',
     src: require('../assets/attire/4_2_c.jpg'),
   },

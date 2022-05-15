@@ -13,6 +13,7 @@
   margin: 2rem 0;
 }
 
+
 .filter {
   text-align: center;
   padding: 2rem 0.5rem;
@@ -21,13 +22,16 @@
 .filter-button--default {
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.5rem;
+
   background-color: white;
   border: 1px solid gray;
   border-radius: 30px;
   box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
 }
 
+
 .filter-button--focused {
+
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.3rem;
   background-color: rgb(235 235 235);
@@ -35,6 +39,7 @@
   border-radius: 30px;
   box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
 }
+
 
 .filter-button--default:hover {
   background-color: rgb(243, 243, 243);
@@ -59,6 +64,7 @@
     margin: 2rem 2rem;
   }
 
+
   .filter-button--default {
     padding: 0.5rem 2rem;
     margin: 0.8rem 1rem;
@@ -67,6 +73,7 @@
     box-shadow: 5px 5px 9px -3px #969696;
   }
 
+
   .filter-button--focused {
     padding: 0.5rem 2rem;
     margin: 0 1rem;
@@ -74,5 +81,6 @@
     border: 3px solid dimgray;
     cursor: pointer;
     box-shadow: 5px 5px 9px -3px #969696;
+
   }
-}
+
