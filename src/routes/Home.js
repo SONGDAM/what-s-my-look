@@ -4,14 +4,27 @@ import Look from '../components/Look';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
 
-// context 셍성
+// context 셍성(날씨와 지역정보를 전달하는 전역상태 )
 export const weatherStateContext = createContext(null);
+export const ImageStateContext = createContext(null);
 
 function Home() {
+  const [imgdata, setImgData] = useState({});
+
   const [weather, setWeather] = useState({
     city: '',
     temp: '',
   });
+
+  const apiCall = async () => {
+    await fetch(`https://what-s-my-look-default-rtdb.firebaseio.com/look.json`)
+      .then((response) => response.json())
+      .then((data) => setImgData(data));
+  };
+
+  useEffect(() => {
+    apiCall();
+  }, []);
 
   useEffect(() => {
     const getWeather = async (position) => {
@@ -50,11 +63,13 @@ function Home() {
 
   return (
     <>
-      <weatherStateContext.Provider value={weather}>
-        <NavBar />
-        <Carousel />
-        <Look />
-      </weatherStateContext.Provider>
+      <ImageStateContext.Provider value={imgdata}>
+        <weatherStateContext.Provider value={weather}>
+          <NavBar />
+          <Carousel />
+          <Look />
+        </weatherStateContext.Provider>
+      </ImageStateContext.Provider>
     </>
   );
 }

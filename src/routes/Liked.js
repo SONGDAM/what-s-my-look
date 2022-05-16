@@ -1,9 +1,5 @@
 function Liked() {
-  return (
-    <div>
-      <p>helloss</p>
-    </div>
-  );
+  return <div>hello</div>;
 }
 
 export default Liked;

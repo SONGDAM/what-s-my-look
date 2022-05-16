@@ -1,4 +1,4 @@
-import { images } from './images';
+import { images } from './Images';
 import Comment from './Comment';
 import { weatherStateContext } from '../routes/Home';
 import '../styles/Look.css';
@@ -16,15 +16,11 @@ function TemperatureImages() {
   );
   const [sortImgArray, setSortImgArray] = useState(images);
 
-  console.log('sortImgArray', sortImgArray);
-  console.log('isLookBtnClick', isLookBtnClick);
-
   const lookList = ['Amekaji', 'Casual', 'Modern', 'Romantic', 'Street'];
 
   //Look버튼 클릭 시
   const lookOnclickHandler = (index, e) => {
     const lookName = e.target.textContent;
-    console.log('look', index, lookName);
 
     //index값이랑 isLookBtnClick값 동일 시 스타일 해제 및 적용
     index === isLookBtnClick ? setIsLookBtnClick('') : setIsLookBtnClick(index);
@@ -57,8 +53,6 @@ function TemperatureImages() {
     }
   }, [imgTemp, temp]);
 
-  const sortFilter = images.filter((img) => img.temperature === imgTemp);
-  console.log('sortFilter', sortFilter);
   return (
     <>
       <Comment look={isLookBtnClick} />

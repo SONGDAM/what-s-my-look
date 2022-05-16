@@ -1,14 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
-import { weatherStateContext } from '../routes/Home';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/NavBar.css';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
-
-  const context = useContext(weatherStateContext);
-
-  console.log(context);
 
   const handleNav = () => {
     if (window.scrollY > 500) {
