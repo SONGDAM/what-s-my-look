@@ -10,14 +10,12 @@ function Comment(props) {
   function lookName() {
     switch (props.look) {
       case 0:
-        return 'Amekaji';
-      case 1:
         return 'Casual';
-      case 2:
+      case 1:
         return 'Modern';
-      case 3:
+      case 2:
         return 'Romantic';
-      case 4:
+      case 3:
         return 'Street';
     }
   }
