@@ -17,13 +17,13 @@ function Look() {
   const [imgArray, setImgArray] = useState([]);
 
   const lookList = ['All', ...new Set(images.map((item) => item.look))];
-  console.log(lookList);
+  // console.log(lookList);
 
   //온도 분류
   const selectTempFn = function (temp) {
     let selectTemp = 0;
     if (temp >= 28) {
-      return (selectTemp = 28);
+      return (selectTemp = 23);
     }
     if (temp >= 23 && temp < 27) {
       return (selectTemp = 23);
@@ -93,8 +93,8 @@ function Look() {
           })}
         </div>
       </>
-      <div className='image-container'>
-        <div className='image-wrapper'>
+      <div className='card'>
+        <div className='card-wrapper'>
           {imgArray.length > 0 ? (
             imgArray.map((item, idx) => <LookItem card={item} key={idx} />)
           ) : (
