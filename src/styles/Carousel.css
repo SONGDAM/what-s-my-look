@@ -1,3 +1,23 @@
+/* 네이버 나눔고딕 */
+@font-face {
+  font-family: 'NanumBarunGothic';
+  font-style: normal;
+  font-weight: 400;
+  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
+  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix')
+      format('embedded-opentype'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff')
+      format('woff'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf')
+      format('truetype');
+}
+
+/* Frank Ruhl Libre */
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&display=swap');
+/* .nanumbarungothic * {
+  font-family: 'NanumBarunGothic', sans-serif;
+} */
+
 .title-image {
   display: block;
   position: relative;
@@ -14,14 +34,18 @@
   position: fixed;
   text-align: center;
   bottom: 1.5rem;
-  text-shadow: 4px 2px 2px gray;
   line-height: 2;
   letter-spacing: 0.01;
   color: #fff;
 }
+
 /* Desktop */
 
 @media screen and (min-width: 768px) {
+  .title {
+    margin-top: -1.3rem;
+  }
+
   .title-image {
     display: block;
     position: relative;
@@ -34,16 +58,38 @@
   .title-content {
     padding: 0 4rem;
     position: fixed;
-    top: 3rem;
-    font-size: 2rem;
+    top: 13rem;
+    font-size: 1.8rem;
     text-align: left;
-    text-shadow: 4px 2px 2px gray;
+    /* text-shadow: 4px 2px 2px gray; */
     line-height: 2;
     letter-spacing: 0.01;
     color: #fff;
   }
 
+  .title-content p {
+    display: block;
+
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 3rem;
+  }
+
   .title h3 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .title p {
+    font-family: 'NanumBarunGothic', sans-serif !important;
+
+    font-size: 1rem;
+  }
+
+  .title button {
+    font-family: 'NanumBarunGothic', sans-serif !important;
+    font-size: 1.1rem;
+    width: 23rem;
+    height: 3rem;
+    border-radius: 5px;
+    border: none;
   }
 }

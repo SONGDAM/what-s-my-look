@@ -1,12 +1,8 @@
 import '../styles/Look.css';
-// import fullHeart from '../assets/icon/full-heart.png';
 import emptyLike from '../assets/icon/empty-heart.png';
 import fullLike from '../assets/icon/full-heart.png';
 import share from '../assets/icon/share.png';
 import { useReducer } from 'react';
-
-// const trueLike = <img src={fullLike} className='icon-item' />;
-// const falseLike = <img src={emptyLike} className='icon-item' />;
 
 const initialState = {
   count: 0,

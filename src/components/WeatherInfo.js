@@ -8,10 +8,13 @@ function WeatherInfo() {
 
   return (
     <div className='title'>
-      <h2>{context.city}</h2>
-      <h3>
-        {context.temp ? `Now: ${Math.round(context.temp)}℃` : 'Loading...'}
-      </h3>
+      <span>
+        {context.city}{' '}
+        {context.temp ? `${Math.round(context.temp)}℃` : 'Loading...'}
+      </span>
+      <p>매일 아침 무엇을 입을지 고민하시나요?</p>
+      <p>오늘의 기온에 맞는 옷차림을 추천해드려요</p>
+      <button>기온별 옷차림 추천받기</button>
     </div>
   );
 }

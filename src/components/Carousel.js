@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { ImageStateContext } from '../routes/Home';
-import { titleImages } from './Images';
+//import { titleImages } from './Images';
 import WeatherInfo from './WeatherInfo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -8,16 +8,15 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../styles/Carousel.css';
 
 function Carousel() {
-  const context = useContext(ImageStateContext);
-
-  console.log(context);
+  const imageContext = useContext(ImageStateContext);
+  const titleImages = Object.values(imageContext).slice(81);
 
   const settings = {
     autoplay: true,
     dots: false,
     infinite: true,
     speed: 500,
-    lazyload: true,
+    lazyLoad: true,
     slidesToShow: 1,
     centerMode: true,
     centerPadding: 0,
@@ -33,7 +32,7 @@ function Carousel() {
             <img src={image.src} alt={''} className='title-image' />
           </div>
           <div className='title-content'>
-            <h1>what &#8217;s my look?</h1>
+            <p>what &#8217;s my look?</p>
             <WeatherInfo key={image.id} />
           </div>
         </div>
@@ -42,4 +41,4 @@ function Carousel() {
   );
 }
 
-export default Carousel;
+export default React.memo(Carousel);

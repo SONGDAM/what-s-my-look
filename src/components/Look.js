@@ -1,5 +1,3 @@
-// import { images } from './Images';
-import Comment from './Comment';
 import LookItem from './LookItem';
 import { weatherStateContext } from '../routes/Home';
 import { ImageStateContext } from '../routes/Home';
@@ -11,13 +9,15 @@ function Look() {
   const temp = Math.round(weatherContext.temp);
   const imageContext = useContext(ImageStateContext);
   const images = Object.values(imageContext).slice(0, 81);
+  const titleImages = Object.values(imageContext).slice(0, 81);
+  console.log(images);
+  console.log(images.map((item) => item.name === titleImages));
 
   const [sortTemp, setSortTemp] = useState(0);
   const [isLookClick, setIsLookClick] = useState('All');
   const [imgArray, setImgArray] = useState([]);
-
   const lookList = ['All', ...new Set(images.map((item) => item.look))];
-  // console.log(lookList);
+  console.log(lookList);
 
   //온도 분류
   const selectTempFn = function (temp) {
@@ -38,7 +38,8 @@ function Look() {
       return (selectTemp = 12);
     }
     if (temp >= 9 && temp <= 11) {
-      return (selectTemp = 9);
+      selectTemp = 9;
+      return;
     }
     if (temp >= 5 && temp <= 8) {
       return (selectTemp = 5);
@@ -72,7 +73,6 @@ function Look() {
   return (
     <div>
       <>
-        <Comment look={isLookClick} />
         <div className='filter'>
           {lookList.map((lookName, idx) => {
             return (
