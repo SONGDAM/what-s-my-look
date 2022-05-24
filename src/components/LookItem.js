@@ -9,7 +9,6 @@ const initialState = {
   likes: [],
 };
 
-console.log(initialState);
 const reducer = (state, action) => {
   console.log('되나', state, action);
   // console.log('되나2', state.likes[0].id);
@@ -37,7 +36,6 @@ const reducer = (state, action) => {
 
 function LookCard({ card }) {
   const [like, dispatch] = useReducer(reducer, initialState);
-  console.log(like);
   return (
     <div className='card-content'>
       <img src={card.src} className='image' />

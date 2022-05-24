@@ -12,12 +12,6 @@
       format('truetype');
 }
 
-/* Frank Ruhl Libre */
-@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&display=swap');
-/* .nanumbarungothic * {
-  font-family: 'NanumBarunGothic', sans-serif;
-} */
-
 .title-image {
   display: block;
   position: relative;
@@ -30,6 +24,7 @@
 }
 
 .title-content {
+  margin: 0 auto;
   padding: 0 1rem;
   position: fixed;
   text-align: center;
@@ -39,11 +34,49 @@
   color: #fff;
 }
 
+.title button {
+  margin-top: 1rem;
+}
+
+.title {
+  margin: 0 auto;
+}
+/* what's my look */
+.title-content p {
+  display: block;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2rem;
+}
+
+/* 온도 */
+.title span {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.4rem;
+}
+
+/* 설명글 */
+.title p {
+  font-family: 'NanumBarunGothic', sans-serif !important;
+  text-shadow: 2px 1px 1px gray;
+  font-size: 0.4rem;
+}
+
+.title button {
+  margin-top: 1rem;
+  font-family: 'NanumBarunGothic', sans-serif !important;
+  font-size: 0.7rem;
+  width: 11rem;
+  height: 2rem;
+  border-radius: 5px;
+  border: none;
+  letter-spacing: 3px;
+}
+
 /* Desktop */
 
 @media screen and (min-width: 768px) {
   .title {
-    margin-top: -1.3rem;
+    margin-top: -1.5rem;
   }
 
   .title-image {
@@ -67,29 +100,33 @@
     color: #fff;
   }
 
+  /* what's my look */
   .title-content p {
     display: block;
+    font-size: 4rem;
+    text-shadow: 2px 1px 1px gray;
+  }
 
-    font-family: 'Frank Ruhl Libre', serif;
-    font-size: 3rem;
+  /* 온도 */
+  .title span {
+    font-size: 2.5rem;
+    text-shadow: 2px 1px 1px gray;
   }
 
   .title h3 {
     font-size: 2rem;
   }
 
+  /* 설명글 */
   .title p {
-    font-family: 'NanumBarunGothic', sans-serif !important;
-
+    text-shadow: 2px 1px 1px gray;
     font-size: 1rem;
   }
 
   .title button {
-    font-family: 'NanumBarunGothic', sans-serif !important;
+    /* margin-top: 2rem; */
     font-size: 1.1rem;
-    width: 23rem;
+    width: 17rem;
     height: 3rem;
-    border-radius: 5px;
-    border: none;
   }
 }

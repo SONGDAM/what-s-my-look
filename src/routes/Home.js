@@ -1,8 +1,8 @@
 import { useState, useEffect, createContext } from 'react';
 import Carousel from '../components/Carousel';
-import Look from '../components/Look';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
+import Look from '../components/Look';
 
 // context 셍성(날씨와 지역정보를 전달하는 전역상태 )
 export const weatherStateContext = createContext(null);

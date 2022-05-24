@@ -1,108 +1,34 @@
-import LookItem from './LookItem';
-import { weatherStateContext } from '../routes/Home';
 import { ImageStateContext } from '../routes/Home';
-import '../styles/Look.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 function Look() {
-  const weatherContext = useContext(weatherStateContext);
-  const temp = Math.round(weatherContext.temp);
-  const imageContext = useContext(ImageStateContext);
-  const images = Object.values(imageContext).slice(0, 81);
-  const titleImages = Object.values(imageContext).slice(0, 81);
-  console.log(images);
-  console.log(images.map((item) => item.name === titleImages));
-
-  const [sortTemp, setSortTemp] = useState(0);
-  const [isLookClick, setIsLookClick] = useState('All');
+  const lookList = ['All', 'casual', 'modern', 'street', 'romantic'];
+  const images = useContext(ImageStateContext);
   const [imgArray, setImgArray] = useState([]);
-  const lookList = ['All', ...new Set(images.map((item) => item.look))];
-  console.log(lookList);
+  const handleImages = Object.values(images);
 
-  //온도 분류
-  const selectTempFn = function (temp) {
-    let selectTemp = 0;
-    if (temp >= 28) {
-      return (selectTemp = 23);
-    }
-    if (temp >= 23 && temp < 27) {
-      return (selectTemp = 23);
-    }
-    if (temp >= 20 && temp <= 22) {
-      return (selectTemp = 20);
-    }
-    if (temp >= 17 && temp <= 19) {
-      return (selectTemp = 17);
-    }
-    if (temp >= 12 && temp <= 16) {
-      return (selectTemp = 12);
-    }
-    if (temp >= 9 && temp <= 11) {
-      selectTemp = 9;
-      return;
-    }
-    if (temp >= 5 && temp <= 8) {
-      return (selectTemp = 5);
-    }
-    if (temp <= 4) {
-      return (selectTemp = 4);
-    }
-    return selectTemp;
-  };
-
-  // 분류한 온도값 setState(setSortTemp) 적용 => 온도 맞는 전체 이미지 띄움
-  useEffect(() => {
-    setSortTemp(selectTempFn(temp));
-  }, [temp, sortTemp]);
-
-  //룩 클릭 시 setState(setImgArray) 적용
-  useEffect(() => {
-    const tempFilter = images.filter((img) => img.temperature === sortTemp);
-    const lookFilter = images.filter(
-      (img) => img.temperature === sortTemp && img.look === isLookClick
-    );
-
-    setImgArray(isLookClick === 'All' ? tempFilter : lookFilter);
-  }, [isLookClick, sortTemp]);
-
-  //룩 클릭이벤트 (클릭 값 찾기)
-  const LookClickHandler = (lookName) => {
-    setIsLookClick(isLookClick === lookName ? 'All' : lookName);
+  const onClick = (e) => {
+    const lookName = e.target.textContent;
+    const result = handleImages.filter((image) => image.look === lookName);
+    setImgArray(result);
   };
 
   return (
-    <div>
-      <>
-        <div className='filter'>
-          {lookList.map((lookName, idx) => {
-            return (
-              <button
-                key={idx}
-                onClick={() => {
-                  LookClickHandler(lookName);
-                }}
-                className={
-                  isLookClick === lookName
-                    ? 'filter-button--focused'
-                    : 'filter-button--default'
-                }
-              >
-                {lookName}
-              </button>
-            );
-          })}
-        </div>
-      </>
-      <div className='card'>
-        <div className='card-wrapper'>
-          {imgArray.length > 0 ? (
-            imgArray.map((item, idx) => <LookItem card={item} key={idx} />)
-          ) : (
-            <h1>준비중 입니다 😃</h1>
-          )}
-        </div>
+    <>
+      <div>
+        {lookList.map((item, idx) => (
+          <button key={idx} onClick={onClick} className='look-button'>
+            {item}
+          </button>
+        ))}
       </div>
-    </div>
+      <div>
+        {imgArray.map((item, idx) => (
+          <img src={item.src} key={idx} />
+        ))}
+      </div>
+    </>
   );
 }
+
 export default Look;
