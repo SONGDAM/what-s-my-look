@@ -1,43 +1,54 @@
 .filter {
   text-align: center;
-  padding: 2rem 0.5rem;
+  padding: 4.5rem 0.5rem 1.5rem 0.5rem;
 }
 
-.filter-button--default {
+.filter-button {
+  /* font-family: 'NanumBarunGothic', sans-serif !important; */
+  font-family: 'Frank Ruhl Libre', serif;
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.5rem;
   background-color: white;
   border: 1px solid gray;
   border-radius: 30px;
-  box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
+  box-shadow: 3px 3px 1px -2px rgb(227, 227, 227);
 }
 
-.filter-button--focused {
+.filter-button:focus {
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.3rem;
-  background-color: rgb(235 235 235);
-  border: 3px solid dimgray;
+  border: none !important;
+  background-color: gray;
+  color: white;
   border-radius: 30px;
-  box-shadow: 3px 3px 1px -1px rgb(227, 227, 227);
+  box-shadow: 3px 3px 1px -2px rgb(227, 227, 227);
 }
 
-.filter-button--default:hover {
+.filter-button:hover {
   background-color: rgb(243, 243, 243);
 }
 
-.card-wrapper {
+.filter-button:focus:hover {
+  background-color: gray;
+}
+
+.card {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.card:first-child {
+  margin-top: 1rem !important;
 }
 
 .image {
   object-fit: cover;
   width: 100%;
-  height: 500px;
-  /* margin: 2rem 0; */
+  /* height: 500px; */
+  margin: 3.3rem 0 0.5rem 0;
 }
 
 .likeButton {
@@ -45,17 +56,26 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.icon-wrapper {
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0.4rem;
+}
+
 @media screen and (min-width: 768px) {
-  .filter-button--default {
-    padding: 0.5rem 2rem;
+  .filter-button {
+    padding: 0.6rem 2rem;
     margin: 0.8rem 1rem;
-    font-size: 1rem;
+    font-size: 1.3rem;
     cursor: pointer;
     box-shadow: 5px 5px 9px -5px #969696;
   }
 
-  .filter-button--focused {
-    padding: 0.5rem 2rem;
+  .filter-button:focus {
+    padding: 0.6rem 2rem;
     margin: 0 1rem;
     font-size: 1rem;
     border: 3px solid dimgray;
@@ -64,29 +84,22 @@
   }
 
   .card {
-    margin: 0 auto;
-  }
-
-  .card-wrapper {
-    width: 80vw;
+    width: 84vw;
     margin: 0 auto;
     flex-direction: row;
     justify-content: center;
   }
 
   .image {
-    width: 15rem;
-    height: 20rem;
+    width: 20rem;
+    height: 24rem;
     line-height: 2;
-    /* padding: 0.5rem; */
-  }
-
-  .card-content {
-    margin: 2rem;
+    padding: 1.5rem 1.7rem 0 1.7rem;
+    margin-top: 1rem;
   }
 
   .icon-wrapper {
-    padding: 0.3rem;
+    margin: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

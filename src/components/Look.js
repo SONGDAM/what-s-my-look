@@ -1,14 +1,18 @@
 import { ImageStateContext } from '../routes/Home';
 import { weatherStateContext } from '../routes/Home';
 import { useContext, useState, useEffect } from 'react';
+import '../styles/Look.css';
+import Like from './Like';
+import Share from './Share';
 
 function Look() {
-  const lookList = ['All', 'casual', 'modern', 'street', 'romantic'];
+  const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useContext(ImageStateContext);
   const temp = useContext(weatherStateContext);
-  const [imgArray, setImgArray] = useState([]);
   const [nowTemp, setNowTemp] = useState(17);
   const handleImages = Object.values(images);
+  const [imgArray, setImgArray] = useState([]);
+  const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
     if (temp >= 23 && temp < 28) {
@@ -41,27 +45,53 @@ function Look() {
     }
   }, [temp]);
 
+  const defaultArray = handleImages.filter(
+    (item) => item.temperature === nowTemp
+  );
+
   const onClick = (e) => {
-    const lookName = e.target.textContent;
+    const buttonName = e.target.textContent;
     const result = handleImages.filter(
-      (image) => image.look === lookName && image.temperature === nowTemp
+      (image) => image.look === buttonName && image.temperature === nowTemp
     );
     setImgArray(result);
+    setIsClick(true);
   };
 
   return (
     <>
-      <div>
+      <div className='filter'>
         {lookList.map((item, idx) => (
-          <button key={idx} onClick={onClick} className='look-button'>
+          <button
+            key={idx}
+            id={idx}
+            onClick={onClick}
+            className='filter-button'
+          >
             {item}
           </button>
         ))}
       </div>
-      <div>
-        {imgArray.map((item, idx) => (
-          <img src={item.src} key={idx} />
-        ))}
+      <div className='card'>
+        {isClick
+          ? imgArray.map((item, idx) => (
+              <div key={idx}>
+                <img src={item.src} key={idx} className='image' />
+                <div className='icon-wrapper'>
+                  <Like />
+                  <Share />
+                </div>
+              </div>
+            ))
+          : defaultArray.map((item, idx) => (
+              <div key={idx}>
+                <img src={item.src} key={idx} className='image' />
+                <div className='icon-wrapper'>
+                  <Like />
+                  <Share />
+                </div>
+              </div>
+            ))}
       </div>
     </>
   );

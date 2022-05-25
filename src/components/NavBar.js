@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/NavBar.css';
+import logo from '../assets/icon/logo.svg';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
@@ -25,7 +26,7 @@ function NavBar() {
     <div>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
         <div className='nav-title'>
-          <h1>what &#8217;s my look?</h1>
+          <img src={logo} alt='' />
         </div>
 
         <div className='nav-content'>
