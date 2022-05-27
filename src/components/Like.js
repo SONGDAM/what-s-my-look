@@ -41,7 +41,6 @@ const reducer = (oldState, action) => {
 function Like() {
   const [like, dispatch] = useReducer(reducer, initialState);
   const [isClick, setIsClick] = useState(false);
-  console.log('like', like);
 
   const addLikeHandler = () => {
     setIsClick(true);

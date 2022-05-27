@@ -31,11 +31,13 @@ function Home() {
   };
 
   const getWeather = async (position) => {
-    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+    const API_KEY = `6e3fd9c6824107fd354f165491f18092`;
 
+    // 현재 위치 api
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
+    //api call
     const json = await (
       await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
@@ -49,11 +51,6 @@ function Home() {
     });
   };
 
-  //에러 핸들링
-  const getWeatherError = () => {
-    throw console.error("CAN'T GET API");
-  };
-
   useEffect(() => {
     sendRequest();
   }, []);
@@ -63,8 +60,14 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    //현재 위치 받는 함수
     const getCurrentWeather = () => {
       navigator.geolocation.getCurrentPosition(getWeather, getWeatherError);
+    };
+
+    //에러 핸들링
+    const getWeatherError = () => {
+      throw console.error("CAN'T GET API");
     };
 
     getCurrentWeather();
