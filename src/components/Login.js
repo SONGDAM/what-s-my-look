@@ -1,12 +1,7 @@
 import { auth } from '../components/firebase';
-// import { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-// import { useNavigate } from 'react-router';
+
 function Login() {
-  // const [userToken, setUserToken] = useState('');
-
-  // const navigate = useNavigate();
-
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -14,6 +9,7 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(res);
         const token = credential.accessToken;
         localStorage.setItem('JWT', token);
+        alert('you logined!');
       })
       .catch((e) => console.log(e));
   };
@@ -23,9 +19,14 @@ function Login() {
   const signUpWithNaver = () => {};
   const signUpWithKakao = () => {};
 
+  const logout = () => {
+    console.log('you logouted!');
+  };
+
   return (
     <div>
       <button onClick={signUpWithGoogle}>signUpWithGoogle</button>
+      <button onClick={logout}>logout</button>
       <button onClick={signUpWithNaver}>signUpWithNaver</button>
       <button onClick={signUpWithKakao}>signUpWithkakao</button>
     </div>
