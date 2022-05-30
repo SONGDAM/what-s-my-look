@@ -53,12 +53,6 @@
   margin: 3.3rem 0 0.5rem 0;
 }
 
-.likeButton {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
 .icon-wrapper {
   padding: 0.3rem;
   display: flex;
@@ -78,9 +72,8 @@
 
   .filter-button:focus {
     padding: 0.6rem 2rem;
-    margin: 0 1rem;
-    font-size: 1rem;
-    border: 3px solid dimgray;
+    margin: 0.8rem 1rem;
+    font-size: 1.3rem;
     cursor: pointer;
     box-shadow: 5px 5px 9px -5px #969696;
   }

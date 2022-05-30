@@ -4,13 +4,13 @@ import { useContext, useState, useEffect } from 'react';
 import '../styles/Look.css';
 import Like from './Like';
 import Share from './Share';
+// import axios from 'axios';
 
 function Look() {
   const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useContext(ImageStateContext);
   const temp = useContext(weatherStateContext);
   const [nowTemp, setNowTemp] = useState(17);
-  const handleImages = Object.values(images);
   const [imgArray, setImgArray] = useState([]);
   const [isClick, setIsClick] = useState(false);
 
@@ -45,13 +45,11 @@ function Look() {
     }
   }, [temp]);
 
-  const defaultArray = handleImages.filter(
-    (item) => item.temperature === nowTemp
-  );
+  const defaultArray = images.filter((item) => item.temperature === nowTemp);
 
   const onClick = (e) => {
     const buttonName = e.target.textContent;
-    const result = handleImages.filter(
+    const result = images.filter(
       (image) => image.look === buttonName && image.temperature === nowTemp
     );
     setImgArray(result);
@@ -76,7 +74,7 @@ function Look() {
         {isClick
           ? imgArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.src} key={idx} className='image' />
+                <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
                   <Like />
                   <Share />
@@ -85,7 +83,7 @@ function Look() {
             ))
           : defaultArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.src} key={idx} className='image' />
+                <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
                   <Like />
                   <Share />

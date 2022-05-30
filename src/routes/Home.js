@@ -11,12 +11,19 @@ export const weatherStateContext = createContext(null);
 export const ImageStateContext = createContext(null);
 
 function Home() {
-  const [imgdata, setImgData] = useState({});
+  const [imgdata, setImgData] = useState([]);
 
   const [weather, setWeather] = useState({
     city: '',
     temp: '',
   });
+
+  const imageApi = async () => {
+    await axios
+      .get('/api/image')
+      .then((response) => response.data)
+      .then((data) => setImgData(data));
+  };
 
   const sendRequest = async () => {
     const response = await axios.get('/api');
@@ -24,11 +31,11 @@ function Home() {
     console.log(response.data);
   };
 
-  const apiCall = async () => {
-    await fetch(`https://what-s-my-look-default-rtdb.firebaseio.com/look.json`)
-      .then((response) => response.json())
-      .then((data) => setImgData(data));
-  };
+  // const apiCall = async () => {
+  //   await fetch(`https://what-s-my-look-default-rtdb.firebaseio.com/look.json`)
+  //     .then((response) => response.json())
+  //     .then((data) => setImgData(data));
+  // };
 
   const getWeather = async (position) => {
     const API_KEY = `6e3fd9c6824107fd354f165491f18092`;
@@ -52,12 +59,16 @@ function Home() {
   };
 
   useEffect(() => {
-    sendRequest();
+    imageApi();
   }, []);
 
   useEffect(() => {
-    apiCall();
+    sendRequest();
   }, []);
+
+  // useEffect(() => {
+  //   apiCall();
+  // }, []);
 
   useEffect(() => {
     //현재 위치 받는 함수
