@@ -32,7 +32,11 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
-app.get('/data', (req, res) => {
+app.get('/api', (req, res) => {
+  res.send('hello');
+});
+
+app.get('/api/user', (req, res) => {
   // eslint-disable-next-line no-unused-vars
   connection.query('SELECT * FROM member', (err, results) => {
     res.send(results);
