@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Carousel from '../components/Carousel';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
@@ -18,11 +18,11 @@ function Home() {
     temp: '',
   });
 
-  const sendRequest = async () => {
-    const response = await axios.get('http://localhost:8080');
-    console.log(response);
-    console.log(response.data);
-  };
+  // const sendRequest = async () => {
+  //   const response = await axios.get('http://localhost:8080');
+  //   console.log(response);
+  //   console.log(response.data);
+  // };
 
   const apiCall = async () => {
     await fetch(`https://what-s-my-look-default-rtdb.firebaseio.com/look.json`)
@@ -51,9 +51,9 @@ function Home() {
     });
   };
 
-  useEffect(() => {
-    sendRequest();
-  }, []);
+  // useEffect(() => {
+  //   sendRequest();
+  // }, []);
 
   useEffect(() => {
     apiCall();

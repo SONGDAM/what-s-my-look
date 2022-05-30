@@ -14,8 +14,6 @@ function Login() {
       .catch((e) => console.log(e));
   };
 
-  // console.log(userToken);
-
   const signUpWithNaver = () => {};
   const signUpWithKakao = () => {};
 
