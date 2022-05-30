@@ -43,4 +43,10 @@ app.get('/api/user', (req, res) => {
   });
 });
 
+app.get('/api/image', (req, res) => {
+  connection.query('SELECT * FROM image', (err, result) => {
+    res.send(result);
+  });
+});
+
 app.use(cors());
