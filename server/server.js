@@ -49,4 +49,18 @@ app.get('/api/image', (req, res) => {
   });
 });
 
+app.post('/api/like', (req, res) => {
+  const id = req.body.id;
+  const imageName = req.body.imageName;
+
+  const sql = `INSERT INTO likes (member_id, image_name) VALUES ('${id}','${imageName}')`;
+
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+  });
+});
+
 app.use(cors());

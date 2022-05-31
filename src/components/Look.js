@@ -4,7 +4,6 @@ import { useContext, useState, useEffect } from 'react';
 import '../styles/Look.css';
 import Like from './Like';
 import Share from './Share';
-// import axios from 'axios';
 
 function Look() {
   const lookList = ['casual', 'modern', 'street', 'romantic'];
@@ -76,7 +75,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like />
+                  <Like imageName={item.name} />
                   <Share />
                 </div>
               </div>
@@ -85,7 +84,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like />
+                  <Like imageName={item.name} />
                   <Share />
                 </div>
               </div>
