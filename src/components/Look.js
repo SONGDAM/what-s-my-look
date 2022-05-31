@@ -55,6 +55,10 @@ function Look() {
     setIsClick(true);
   };
 
+  const test = (e) => {
+    console.log(e.target.imageName);
+  };
+
   return (
     <>
       <div className='filter'>
@@ -75,7 +79,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageName={item.name} />
+                  <Like imageName={item.name} test={test} />
                   <Share />
                 </div>
               </div>
@@ -84,7 +88,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageName={item.name} />
+                  <Like imageName={item.name} onClick={test} />
                   <Share />
                 </div>
               </div>
