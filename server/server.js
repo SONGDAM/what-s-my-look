@@ -12,7 +12,7 @@ const fs = require('fs');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session');
 const passport = require('passport');
-const MySQLStore = require('express-mysql-session')(session);
+//const MySQLStore = require('express-mysql-session')(session);
 const data = fs.readFileSync('./database.json');
 const conf = JSON.parse(data);
 // eslint-disable-next-line no-unused-vars
@@ -30,8 +30,38 @@ passport.use(
       callbackURL: 'http://localhost:8080/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      localStorage.setItem('token', accessToken);
-      return done(null, profile);
+      connection.query(
+        `SELECT * FROM member WHERE id=${profile.id}`,
+        (err, user) => {
+          if (err) {
+            return done(err);
+          } else if (user) {
+            console.log('유저');
+            return done(null, user);
+          } else {
+            console.log('새 유저');
+            console.log('user', user);
+            let newUser = {
+              google_id: profile.id,
+              google_token: accessToken,
+              google_email: profile.emails[0].value,
+              google_name: profile.name.givenName,
+              // + ' ' + profile.name.familyName,
+            };
+
+            connection.query(
+              `INSERT INTO member (id, token, email, name) VALUES ('${newUser.google_id}','${newUser.google_token}', '${newUser.google_email}', '${newUser.google_name}' ) `,
+              (err, rows) => {
+                if (err) {
+                  console.log(err);
+                }
+                console.log('rows', rows, '-----', newUser);
+                return done(null, newUser);
+              }
+            );
+          }
+        }
+      );
     }
   )
 );
@@ -48,6 +78,8 @@ app.use(
     cookie: { secure: true },
   })
 );
+
+// passport 초기화 및 session 연결
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -56,6 +88,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
+//구글 로그인 화면
 app.get('/auth/google', function (req, res, next) {
   passport.authenticate('google', { scope: ['profile', 'email'] })(
     req,
@@ -64,6 +97,7 @@ app.get('/auth/google', function (req, res, next) {
   );
 });
 
+//구글 로그인 성공과 실패 리다이렉트
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
@@ -72,10 +106,14 @@ app.get(
   })
 );
 
+// login이 최초로 성공했을 때만 호출되는 함수
+// done(null, user.id)로 세션을 초기화 한다.
 passport.serializeUser((user, done) => {
   done(null, user);
 });
 
+// 사용자가 페이지를 방문할 때마다 호출되는 함수
+// done(null, id)로 사용자의 정보를 각 request의 user 변수에 넣어준다.
 passport.deserializeUser(function (id, done) {
   done(null, id);
 });
@@ -101,7 +139,7 @@ const connection = mysql.createConnection({
   database: conf.database,
 });
 
-app.get('/api/user', (req, res) => {
+app.get('/api/get/user', (req, res) => {
   // eslint-disable-next-line no-unused-vars
   connection.query('SELECT * FROM member', (err, results) => {
     res.send(results);
@@ -134,13 +172,19 @@ app.get('/api/getImageCount', (req, res) => {
 app.post('/api/post/like', (req, res) => {
   const id = req.body.id;
   const imageName = req.body.imageName;
-
-  const sql = `INSERT INTO likes (member_id, image_name) VALUES (${id}','${imageName}')`;
+  const sql = `INSERT INTO likes (member_id, image_name) VALUES ('${id}','${imageName}')`;
 
   connection.query(sql, (err, result) => {
-    if (err) {
-      console.log('err');
-    }
+    res.send(result);
+  });
+});
+
+//좋아요 취소 post
+app.post('/api/post/unLike', (req, res) => {
+  const lno = req.body.lno;
+  const sql = `DELETE FROM likes where lno='${lno}'`;
+
+  connection.query(sql, (err, result) => {
     res.send(result);
   });
 });
