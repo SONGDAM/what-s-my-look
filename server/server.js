@@ -12,46 +12,41 @@ const fs = require('fs');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session');
 const passport = require('passport');
+const MySQLStore = require('express-mysql-session')(session);
 const data = fs.readFileSync('./database.json');
 const conf = JSON.parse(data);
 // eslint-disable-next-line no-unused-vars
 require('dotenv').config();
-//dotenv.config({ path: path.join(__dirname, '/.env') });
-
-console.log(process.env.GOOGLE_CLIENT_ID);
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECERET,
-      callbackURL: 'http://localhost:3000/login/google/callback',
-    },
-    (accessToken, refreshToken, profile, cb) => {
-      return cb(null, profile);
-    }
-  )
-);
-
-const connection = mysql.createConnection({
-  host: conf.host,
-  user: conf.user,
-  password: conf.password,
-  port: conf.port,
-  database: conf.database,
-});
 
 server.listen(8080, () => {
   console.log('server is running on 8080');
 });
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:8080/auth/google/callback',
+    },
+    (accessToken, refreshToken, profile, done) => {
+      localStorage.setItem('token', accessToken);
+      return done(null, profile);
+    }
+  )
+);
+
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 app.use(
-  session({ secret: 'SECRET_CODE', resave: true, saveUninitialized: false })
+  session({
+    secret: 'ThisSecretIsEqualToCustomKeyForEncryption.',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -61,8 +56,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
-app.get('/google', function (req, res, next) {
-  // GET /user/google
+app.get('/auth/google', function (req, res, next) {
   passport.authenticate('google', { scope: ['profile', 'email'] })(
     req,
     res,
@@ -71,32 +65,41 @@ app.get('/google', function (req, res, next) {
 });
 
 app.get(
-  '/login/google/callback',
+  '/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/',
-    successRedirect: '/liked',
+    successRedirect: 'http://localhost:3000/liked',
   })
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser(function (id, done) {
+  done(null, id);
+});
 
 app.get('/api', (req, res) => {
   res.send('hello');
 });
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
 // eslint-disable-next-line no-unused-vars
-const authenticateUser = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.status(301).redirect('/login');
-  }
-};
+// app.post('/liked',(req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     next();
+//   } else {
+//     res.status(301).redirect('/');
+//   }
+// };
+
+const connection = mysql.createConnection({
+  host: conf.host,
+  user: conf.user,
+  password: conf.password,
+  port: conf.port,
+  database: conf.database,
+});
 
 app.get('/api/user', (req, res) => {
   // eslint-disable-next-line no-unused-vars
@@ -115,11 +118,11 @@ app.post('/api/like', (req, res) => {
   const id = req.body.id;
   const imageName = req.body.imageName;
 
-  const sql = `INSERT INTO likes (member_id, image_name) VALUES ('${id}','${imageName}')`;
+  const sql = `INSERT INTO likes (member_id, image_name) VALUES (${id}','${imageName}')`;
 
   connection.query(sql, (err, result) => {
     if (err) {
-      console.log(err);
+      console.log('err');
     }
     res.send(result);
   });
