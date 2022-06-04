@@ -17,9 +17,9 @@ function Home() {
     temp: '',
   });
 
-  const imageApi = async () => {
+  const imageAndLikeCount = async () => {
     await axios
-      .get('/api/image')
+      .get('/api/imageAndLikeCount')
       .then((response) => response.data)
       .then((data) => setImgData(data));
   };
@@ -55,7 +55,7 @@ function Home() {
   };
 
   useEffect(() => {
-    imageApi();
+    imageAndLikeCount();
   }, []);
 
   useEffect(() => {

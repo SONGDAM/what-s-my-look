@@ -6,6 +6,7 @@ import Like from './Like';
 import Share from './Share';
 
 function Look() {
+  // const lookList = [new Set(images.map((item) => item.look))];
   const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useContext(ImageStateContext);
   const temp = useContext(weatherStateContext);
@@ -55,10 +56,6 @@ function Look() {
     setIsClick(true);
   };
 
-  const test = (e) => {
-    console.log(e.target.imageName);
-  };
-
   return (
     <>
       <div className='filter'>
@@ -79,7 +76,11 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageName={item.name} test={test} />
+                  <Like
+                    count={item.count}
+                    imageName={item.name}
+                    lno={item.lno}
+                  />
                   <Share />
                 </div>
               </div>
@@ -88,7 +89,11 @@ function Look() {
               <div key={idx}>
                 <img src={item.path} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageName={item.name} onClick={test} />
+                  <Like
+                    count={item.count}
+                    imageName={item.name}
+                    lno={item.lno}
+                  />
                   <Share />
                 </div>
               </div>

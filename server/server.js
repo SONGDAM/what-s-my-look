@@ -105,22 +105,45 @@ app.get('/api/user', (req, res) => {
   });
 });
 
-app.get('/api/image', (req, res) => {
-  connection.query('SELECT * FROM image', (err, result) => {
+//image join likes
+app.get('/api/imageAndLikeCount', (req, res) => {
+  const sql = `SELECT *, COUNT(l.image_name) count FROM image i left JOIN likes l ON l.image_name= i.name GROUP BY i.name`;
+  connection.query(sql, (err, result) => {
     res.send(result);
   });
 });
 
-app.post('/api/like', (req, res) => {
+app.get('/api/get/like', (req, res) => {
+  // eslint-disable-next-line no-unused-vars
+  connection.query('SELECT * FROM likes', (err, results) => {
+    res.send(results);
+  });
+});
+
+app.get('/api/getImageCount', (req, res) => {
+  const sql = `SELECT image_name, COUNT(image_name) count FROM likes GROUP BY image_name`;
+  connection.query(sql, (err, result) => {
+    res.send(result);
+  });
+});
+
+//좋아요 post
+app.post('/api/post/like', (req, res) => {
   const id = req.body.id;
   const imageName = req.body.imageName;
-
   const sql = `INSERT INTO likes (member_id, image_name) VALUES ('${id}','${imageName}')`;
 
   connection.query(sql, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
+    res.send(result);
+  });
+});
+
+//좋아요 취소 post
+app.post('/api/post/unLike', (req, res) => {
+  const lno = req.body.lno;
+  const sql = `DELETE FROM likes where lno='${lno}'`;
+
+  connection.query(sql, (err, result) => {
     res.send(result);
   });
 });
