@@ -1,9 +1,17 @@
+.like-container {
+  display: flex;
+  align-items: center;
+}
 .icon {
   width: 1.4rem;
 }
 
 .like {
-  margin-right: 0.5rem;
+  margin-right: 0.4rem;
+}
+
+.like-count {
+  margin-bottom: 0.15rem;
 }
 
 button {

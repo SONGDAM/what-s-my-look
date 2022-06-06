@@ -1,89 +1,78 @@
-import unLike from '../assets/icon/empty-heart.png';
-import addLike from '../assets/icon/full-heart.png';
-import '../styles/like.css';
-import { useReducer, useState } from 'react';
 import axios from 'axios';
+import unLike from '../assets/icon/empty-heart.png';
+import like from '../assets/icon/full-heart.png';
+import '../styles/like.css';
+import { useState, useEffect, useContext } from 'react';
+import { getUserContext } from '../App';
 
-const initialState = {
-  count: 0,
-  likes: [],
-};
+function Like({ count, imageName, lno }) {
+  const [isLike, setIsLike] = useState(false); //좋아요 클릭
+  const user = useContext(getUserContext); //user정보
+  const [userId, setUserId] = useState(''); //user의 id
 
-const ACTION_TYPE = {
-  addLike: 'addLike',
-  unLike: 'unLike',
-};
+  //user정보를 map 돌려서 id값 userId에 저장
+  useEffect(() => {
+    setUserId(user.map((list) => list.id));
+  }, [user]);
 
-const email = 'aa@aa.com';
+  //db에서 좋아요 테이블 가져오기
+  const getLike = async () => {
+    const response = await axios.get('api/get/like');
+    const data = response.data;
+    // console.log('좋아요 테이블', data);
 
-const reducer = (oldState, action) => {
-  switch (action.type) {
-    case ACTION_TYPE.addLike:
-      return {
-        count: oldState.count + 1,
-        likes: [
-          oldState.likes,
-          {
-            id: Date.now(),
-            email,
-          },
-        ],
-      };
-    case ACTION_TYPE.unLike:
-      return {
-        count: oldState.count - 1,
-        likes: oldState.likes.length - 1,
-      };
-    default:
-      oldState;
-  }
-};
-
-function Like({ imageName }) {
-  console.log(imageName);
-  const [like, dispatch] = useReducer(reducer, initialState);
-  const [isClick, setIsClick] = useState(false);
-
-  const addLikeHandler = (e) => {
-    console.log(e.target.imageName);
-    // setIsClick(true);
-    // dispatch({ type: ACTION_TYPE.addLike });
-
-    postLike();
+    //로그인한 유저가 좋아요 했으면 빨간하트로 바꾸기 이거 안됨 (useState가 개별이 아닌 한 덩어리로 움직임 후....)
+    if (data.map((list) => list.member_id === userId)) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
   };
 
-  //좋아요
-  const postLike = async () => {
+  useEffect(() => {
+    getLike();
+  }, []);
+
+  //좋아요 버튼 클릭 시
+  const toggleLike = () => {
+    if (isLike === false) {
+      setIsLike(true);
+      upLike();
+    } else {
+      setIsLike(false);
+      downLike();
+    }
+  };
+
+  //좋아요 db에 저장
+  const upLike = async () => {
     await axios
-      .post('/api/like', {
-        id: email,
-        imageName: '20_1_r',
+      .post('/api/post/like', {
+        id: userId,
+        imageName: imageName,
       })
       .then((res) => console.log(res.data));
   };
 
-  const unLikeHandler = () => {
-    setIsClick(false);
-    dispatch({ type: ACTION_TYPE.unLike });
+  //좋아요 취소 db에 저장
+  const downLike = async () => {
+    await axios
+      .post('/api/post/unLike', {
+        lno: lno,
+      })
+      .then((res) => console.log(res.data));
   };
 
   return (
     <>
-      {!isClick ? (
-        <div>
-          <button onClick={addLikeHandler}>
-            <img src={unLike} alt='' className='icon like' />
-          </button>
-          {like.count}
-        </div>
-      ) : (
-        <div>
-          <button onClick={unLikeHandler}>
-            <img src={addLike} alt='' className='icon like' />
-          </button>
-          {like.count}
-        </div>
-      )}
+      <div className='like-container'>
+        <button onClick={toggleLike}>
+          <img src={isLike ? like : unLike} alt='' className='icon like' />
+        </button>
+        <span className='like-count'>
+          {count}/{imageName}/{lno}
+        </span>
+      </div>
     </>
   );
 }
