@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Carousel from '../components/Carousel';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
@@ -17,24 +17,22 @@ function Home() {
     temp: '',
   });
 
-  const imageAndLikeCount = async () => {
-    await axios
-      .get('/api/imageAndLikeCount')
-      .then((response) => response.data)
-      .then((data) => setImgData(data));
-  };
-
-  const sendRequest = async () => {
-    const response = await axios.get('/api');
-    console.log(response);
-    console.log(response.data);
-  };
+  // const imageAndLikeCount = async () => {
+  //   await axios
+  //     .get(`https://what-s-my-look-default-rtdb.firebaseio.com/database.json`)
+  //     .then((response) => response.data)
+  //     .then((data) => setImgData(data));
+  // .then((data) => console.log(data));
+  //};
 
   // const apiCall = async () => {
-  //   await fetch(`https://what-s-my-look-default-rtdb.firebaseio.com/look.json`)
-  //     .then((response) => response.json())
-  //     .then((data) => setImgData(data));
-  // };
+  const imageAndLikeCount = async () => {
+    await fetch(
+      `https://what-s-my-look-default-rtdb.firebaseio.com/database/look.json`
+    )
+      .then((response) => response.json())
+      .then((data) => setImgData(data));
+  };
 
   const getWeather = async (position) => {
     const API_KEY = `6e3fd9c6824107fd354f165491f18092`;
@@ -56,10 +54,6 @@ function Home() {
 
   useEffect(() => {
     imageAndLikeCount();
-  }, []);
-
-  useEffect(() => {
-    sendRequest();
   }, []);
 
   // useEffect(() => {

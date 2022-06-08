@@ -46,7 +46,7 @@ function Look() {
   }, [temp]);
 
   const defaultArray = images.filter((item) => item.temperature === nowTemp);
-
+  console.log('default', defaultArray);
   const onClick = (e) => {
     const buttonName = e.target.textContent;
     const result = images.filter(
@@ -55,6 +55,9 @@ function Look() {
     setImgArray(result);
     setIsClick(true);
   };
+
+  console.log('images', images);
+  console.log('imgArray', imgArray);
 
   return (
     <>
@@ -74,26 +77,18 @@ function Look() {
         {isClick
           ? imgArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.path} key={idx} className='image' />
+                <img src={item.src} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like
-                    count={item.count}
-                    imageName={item.name}
-                    lno={item.lno}
-                  />
+                  <Like count={item.count} imageName={item.name} />
                   <Share />
                 </div>
               </div>
             ))
           : defaultArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.path} key={idx} className='image' />
+                <img src={item.src} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like
-                    count={item.count}
-                    imageName={item.name}
-                    lno={item.lno}
-                  />
+                  <Like count={item.count} imageName={item.name} />
                   <Share />
                 </div>
               </div>

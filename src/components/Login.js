@@ -1,24 +1,43 @@
-// import { auth } from '../components/firebase';
-// import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { auth } from '../components/firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import google from '../assets/icon/google-login.png';
+import { useState, useEffect } from 'react';
 
 function Login() {
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const [, setUserInfoState] = useState(null);
+  // 작성 코드
 
-  const loginWithGoogle = () => {
-    navigate('http://localhost:8080/auth/google');
+  const signUpWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((data) => {
+        setUserData(data.user);
+      })
+      .catch((e) => console.warn(e));
   };
 
-  const logout = () => {
-    console.log('you logouted!');
-  };
+  const currentUser = auth.currentUser;
 
-  const login = 'http://localhost:8080/auth/google';
+  useEffect(() => {
+    const handleUserInfo = () => {
+      setUserInfoState(currentUser);
+    };
+    handleUserInfo();
+  }, [currentUser]);
+
+  // const displayName = currentUser.displayName;
+  // const email = currentUser.email;
+  // const photoURL = currentUser.photoURL;
+  // const emailVerified = currentUser.emailVerified;
+  // const uid = currentUser.uid;
+
   return (
     <div>
-      <button onClick={loginWithGoogle}>signUpWithGoogle</button>
-      <a href={login}>login</a>
-      <button onClick={logout}>logout</button>
+      <button onClick={signUpWithGoogle}>
+        <img src={google} alt='' />
+      </button>
+      {userData ? userData.displayName : null}
     </div>
   );
 }
