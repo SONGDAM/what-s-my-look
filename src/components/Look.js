@@ -2,7 +2,7 @@ import { ImageStateContext } from '../routes/Home';
 import { weatherStateContext } from '../routes/Home';
 import { useContext, useState, useEffect } from 'react';
 import '../styles/Look.css';
-import Like from './Like';
+import Like from './Like.js';
 import Share from './Share';
 
 function Look() {

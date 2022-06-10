@@ -1,10 +1,14 @@
 import { useState, useEffect, createContext } from 'react';
-// import axios from 'axios';
 import Carousel from '../components/Carousel';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
 import Look from '../components/Look';
 import Login from '../components/Login';
+
+// import authState, { isLoggedInState } from '../recoil/authState';
+
+import authState from '../recoil/authState';
+import { useRecoilValue } from 'recoil';
 
 export const weatherStateContext = createContext(null);
 export const ImageStateContext = createContext(null);
@@ -12,20 +16,6 @@ export const ImageStateContext = createContext(null);
 function Home() {
   const [imgdata, setImgData] = useState([]);
 
-  const [weather, setWeather] = useState({
-    city: '',
-    temp: '',
-  });
-
-  // const imageAndLikeCount = async () => {
-  //   await axios
-  //     .get(`https://what-s-my-look-default-rtdb.firebaseio.com/database.json`)
-  //     .then((response) => response.data)
-  //     .then((data) => setImgData(data));
-  // .then((data) => console.log(data));
-  //};
-
-  // const apiCall = async () => {
   const imageAndLikeCount = async () => {
     await fetch(
       `https://what-s-my-look-default-rtdb.firebaseio.com/database/look.json`
@@ -33,6 +23,11 @@ function Home() {
       .then((response) => response.json())
       .then((data) => setImgData(data));
   };
+
+  const [weather, setWeather] = useState({
+    city: '',
+    temp: '',
+  });
 
   const getWeather = async (position) => {
     const API_KEY = `6e3fd9c6824107fd354f165491f18092`;
@@ -56,23 +51,21 @@ function Home() {
     imageAndLikeCount();
   }, []);
 
-  // useEffect(() => {
-  //   apiCall();
-  // }, []);
-
   useEffect(() => {
-    //현재 위치 받는 함수
     const getCurrentWeather = () => {
       navigator.geolocation.getCurrentPosition(getWeather, getWeatherError);
     };
 
-    //에러 핸들링
     const getWeatherError = () => {
-      throw console.error("CAN'T GET API");
+      console.error("CAN'T GET API");
     };
 
     getCurrentWeather();
   }, []);
+
+  const authedUser = useRecoilValue(authState);
+
+  console.log(authedUser);
 
   return (
     <>
