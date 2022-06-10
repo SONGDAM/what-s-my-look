@@ -46,7 +46,7 @@ function Look() {
   }, [temp]);
 
   const defaultArray = images.filter((item) => item.temperature === nowTemp);
-  console.log('default', defaultArray);
+
   const onClick = (e) => {
     const buttonName = e.target.textContent;
     const result = images.filter(
@@ -79,7 +79,11 @@ function Look() {
               <div key={idx}>
                 <img src={item.src} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like count={item.count} imageName={item.name} />
+                  <Like
+                    count={item.count}
+                    imageName={item.name}
+                    imgNum={item.id}
+                  />
                   <Share />
                 </div>
               </div>
@@ -88,7 +92,11 @@ function Look() {
               <div key={idx}>
                 <img src={item.src} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like count={item.count} imageName={item.name} />
+                  <Like
+                    count={item.count}
+                    imageName={item.name}
+                    imgNum={item.id}
+                  />
                   <Share />
                 </div>
               </div>

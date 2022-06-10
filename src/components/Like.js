@@ -1,34 +1,62 @@
-import { getDatabase, ref, set } from 'firebase/database';
-import { useState } from 'react';
+import { getDatabase, ref, onValue, update, push } from 'firebase/database';
+import { useState, useEffect } from 'react';
 import unLike from '../assets/icon/empty-heart.png';
 import like from '../assets/icon/full-heart.png';
 import '../styles/like.css';
 
-function Like() {
-  const [isLike, setIsLike] = useState(false);
-  const userId = 'hnk3176@google.com';
-  const name = '나경';
+function Like({ imageName, imgNum }) {
+  const [isLike, setIsLike] = useState(false); //클릭여부
+  const [count, setCount] = useState(0);
+  const userId = 'hnk3177@google.com';
+  // const userId = null;
+  const db = getDatabase();
 
-  const upLike = (userId, name) => {
-    const db = getDatabase();
-    const reference = ref(db, 'look/');
+  //좋아요 db 저장
+  const upLike = (userId) => {
+    const saveUserIdReference = ref(db, `database/look/${imgNum}/likes/`);
+    push(saveUserIdReference, {
+      0: userId,
+    });
 
-    set(reference, {
-      userId: userId,
-      name: name,
-      //count: count,
+    const saveCountReference = ref(db, `database/look/${imgNum}/`);
+    update(saveCountReference, {
+      count: count + 1,
     });
   };
 
-  upLike(userId, name);
+  //좋아요 취소 db 저장
+  // const downLike = (userId) =>{
+  //   const deleteUSerIdReference = ref(db,`database/look/${imgNum}/likes/`);
+  //   update(deleteUSerIdReference,{
+  //     if()
+  //   })
+  // }
 
+  //카운트 개수 가져오기
+  useEffect(() => {
+    const reference = ref(db, `database/look/${imgNum}`);
+    onValue(reference, (snapshot) => {
+      const data = snapshot.val();
+      console.log('data', data.count);
+      if (data !== null) {
+        Object.keys(data).map((item) => setCount(item.count));
+      }
+    });
+  }, [count]);
+
+  //좋아요 버튼 클릭시 uplike/downLike 실행
   const toggleLike = () => {
+    if (!userId) {
+      alert('로긘해줘');
+      return false;
+    }
+
     if (!isLike) {
       setIsLike(true);
-      upLike();
+      upLike(userId, 0);
     }
     setIsLike(false);
-    //downLike();
+    // downLike(userId);
   };
   return (
     <>
@@ -36,7 +64,9 @@ function Like() {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        <span className='like-count'></span>
+        <span className='like-count'>
+          {count}/{imageName}
+        </span>
       </div>
     </>
   );
