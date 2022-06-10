@@ -38,6 +38,7 @@ function Login() {
         <img src={google} alt='' />
       </button>
       {userData ? userData.displayName : null}
+      {/* {userData ? <img src={userData.reloadUserInfo.photoUrl} /> : null} */}
     </div>
   );
 }
