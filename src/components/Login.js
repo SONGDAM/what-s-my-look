@@ -1,43 +1,53 @@
 import { auth } from '../components/firebase';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  // setPersistence,
+  // inMemoryPersistence,
+  // onAuthStateChanged,
+} from 'firebase/auth';
 import google from '../assets/icon/google-login.png';
-import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import authState from '../recoil/authState';
+import { useNavigate } from 'react-router';
 
 function Login() {
-  const [userData, setUserData] = useState(null);
-  const [, setUserInfoState] = useState(null);
-  // 작성 코드
+  const navigate = useNavigate();
+  const [authedUser, setAuth] = useRecoilState(authState);
 
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((data) => {
-        setUserData(data.user);
-      })
-      .catch((e) => console.warn(e));
+
+    signInWithPopup(auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+
+      const user = result.user;
+      setAuth(user);
+
+      localStorage.setItem('token', token);
+    });
+
+    if (localStorage.getItem('token') === null) {
+      navigate('/');
+      return;
+    }
   };
 
-  const currentUser = auth.currentUser;
+  console.log(authedUser);
 
-  useEffect(() => {
-    const handleUserInfo = () => {
-      setUserInfoState(currentUser);
-    };
-    handleUserInfo();
-  }, [currentUser]);
-
-  // const displayName = currentUser.displayName;
-  // const email = currentUser.email;
-  // const photoURL = currentUser.photoURL;
-  // const emailVerified = currentUser.emailVerified;
-  // const uid = currentUser.uid;
+  const logout = () => {
+    signOut(auth).then(alert('logout!'));
+    localStorage.clear();
+  };
 
   return (
     <div>
       <button onClick={signUpWithGoogle}>
         <img src={google} alt='' />
       </button>
-      {userData ? userData.displayName : null}
+      <button onClick={logout}>logout</button>
     </div>
   );
 }
