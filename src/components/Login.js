@@ -1,38 +1,28 @@
 import { auth } from '../components/firebase';
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  // setPersistence,
-  // inMemoryPersistence,
-  // onAuthStateChanged,
-} from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import google from '../assets/icon/google-login.png';
 import { useRecoilState } from 'recoil';
 import authState from '../recoil/authState';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 
 function Login() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [authedUser, setAuth] = useRecoilState(authState);
 
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
 
     signInWithPopup(auth, provider).then((result) => {
-      //const credential = GoogleAuthProvider.credentialFromResult(result);
-      //const token = credential.accessToken;
+      const user = {
+        email: result.user.email,
+        nickName: result.user.displayName,
+        photo: result.user.photoURL,
+      };
 
-      const user = result.user;
       setAuth(user);
 
-      //localStorage.setItem('token', token);
+      console.log(user);
     });
-
-    if (localStorage.getItem('token') === null) {
-      navigate('/');
-      return;
-    }
   };
 
   console.log(authedUser);

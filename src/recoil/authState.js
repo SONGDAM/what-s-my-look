@@ -1,10 +1,12 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 const authState = atom({
   key: 'authState',
   default: null,
-  // TypeError: Cannot freeze 방지
-  dangerouslyAllowMutability: true,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const isLoggedInState = atom({

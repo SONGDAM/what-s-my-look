@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/NavBar.css';
 import logo from '../assets/icon/logo.svg';
+import { useRecoilValue } from 'recoil';
+import authState from '../recoil/authState';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
+  const authedUser = useRecoilValue(authState);
 
   const handleNav = () => {
     if (window.scrollY > 500) {
@@ -29,6 +32,7 @@ function NavBar() {
         </div>
 
         <div className='nav-content'>
+          <span>{authedUser?.nickName}</span>
           <Link to='/liked'>
             <span>Liked</span>
           </Link>
