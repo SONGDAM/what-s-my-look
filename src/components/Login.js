@@ -20,13 +20,13 @@ function Login() {
     const provider = new GoogleAuthProvider();
 
     signInWithPopup(auth, provider).then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      //const credential = GoogleAuthProvider.credentialFromResult(result);
+      //const token = credential.accessToken;
 
       const user = result.user;
       setAuth(user);
 
-      localStorage.setItem('token', token);
+      //localStorage.setItem('token', token);
     });
 
     if (localStorage.getItem('token') === null) {
@@ -39,7 +39,6 @@ function Login() {
 
   const logout = () => {
     signOut(auth).then(alert('logout!'));
-    localStorage.clear();
   };
 
   return (

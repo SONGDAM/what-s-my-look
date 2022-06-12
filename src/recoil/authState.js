@@ -12,4 +12,9 @@ export const isLoggedInState = atom({
   default: false,
 });
 
+export const tokenState = atom({
+  key: 'tokenState',
+  default: '',
+});
+
 export default authState;

@@ -6,7 +6,6 @@ import Like from './Like.js';
 import Share from './Share';
 
 function Look() {
-  // const lookList = [new Set(images.map((item) => item.look))];
   const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useContext(ImageStateContext);
   const temp = useContext(weatherStateContext);

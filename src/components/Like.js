@@ -1,12 +1,13 @@
-import { getDatabase, ref, onValue, update, push } from 'firebase/database';
+import { getDatabase, ref, update, push } from 'firebase/database';
 import { useState, useEffect } from 'react';
 import unLike from '../assets/icon/empty-heart.png';
 import like from '../assets/icon/full-heart.png';
 import '../styles/like.css';
 
-function Like({ imageName, imgNum }) {
+function Like({ imgNum }) {
   const [isLike, setIsLike] = useState(false); //클릭여부
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState({});
+  const [userData, setUserData] = useState([]);
   const userId = 'hnk3177@google.com';
   // const userId = null;
   const db = getDatabase();
@@ -20,7 +21,8 @@ function Like({ imageName, imgNum }) {
 
     const saveCountReference = ref(db, `database/look/${imgNum}/`);
     update(saveCountReference, {
-      count: count + 1,
+      // count: setCount((count) => count + 1),
+      // count: count + 1,
     });
   };
 
@@ -32,41 +34,59 @@ function Like({ imageName, imgNum }) {
   //   })
   // }
 
-  //카운트 개수 가져오기
+  // const reference = ref(db, `database/look/${imgNum}`);
+  // onValue(reference, (snapshot) => {
+  //const data = snapshot.val();
+  //console.log('data', data);
+  //setCount(data);
+  //  });
+
   useEffect(() => {
-    const reference = ref(db, `database/look/${imgNum}`);
-    onValue(reference, (snapshot) => {
-      const data = snapshot.val();
-      console.log('data', data.count);
-      if (data !== null) {
-        Object.keys(data).map((item) => setCount(item.count));
-      }
-    });
-  }, [count]);
+    const getCount = () => {
+      fetch(
+        'https://what-s-my-look-default-rtdb.firebaseio.com/database/look.json'
+      )
+        .then((res) => res.json())
+        .then((data) => setUserData(data));
+    };
+    getCount();
+  }, []);
+
+  //카운트 개수 가져오기
+  // useEffect(() => {
+
+  // }, [count]);
 
   //좋아요 버튼 클릭시 uplike/downLike 실행
   const toggleLike = () => {
     if (!userId) {
       alert('로긘해줘');
-      return false;
     }
 
     if (!isLike) {
       setIsLike(true);
-      upLike(userId, 0);
+      upLike(userId);
     }
-    setIsLike(false);
+
     // downLike(userId);
   };
+  // console.log(
+  //   '나와라..',
+  //   userData.map((list) => list.count)
+  // );
   return (
     <>
       <div className='like-container'>
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        <span className='like-count'>
-          {count}/{imageName}
-        </span>
+        {userData &&
+          userData.map((data) => (
+            <div key={data.id}>
+              <p>{data.count}</p>
+              <p>{data.name}</p>
+            </div>
+          ))}
       </div>
     </>
   );
