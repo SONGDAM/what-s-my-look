@@ -4,40 +4,13 @@ import '../styles/global.css';
 import NavBar from '../components/NavBar';
 import Look from '../components/Look';
 import Login from '../components/Login';
-import authState, { isLoggedInState } from '../recoil/authState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  setPersistence,
-  browserLocalPersistence,
-  //onAuthStateChanged,
-} from 'firebase/auth';
-import { auth } from '../components/firebase';
+import { useRecoilValue } from 'recoil';
+import { getWeatherApi, getImageApi } from '../recoil/apiCallSelector';
 
 export const weatherStateContext = createContext(null);
 export const ImageStateContext = createContext(null);
 
 function Home() {
-  const authedUser = useRecoilValue(authState);
-  const isLogin = useSetRecoilState(isLoggedInState);
-
-  useEffect(() => {
-    const validateUser = () => {
-      if (!authedUser) {
-        return;
-      }
-
-      if (authedUser) {
-        setPersistence(auth, browserLocalPersistence).catch(() => {
-          console.error('unAuthedUser');
-        });
-
-        isLogin(true);
-      }
-    };
-
-    validateUser();
-  }, [authedUser, isLogin]);
-
   const [imgdata, setImgData] = useState([]);
 
   const imageAndLikeCount = async () => {
@@ -71,6 +44,13 @@ function Home() {
     });
   };
 
+  const imageState = useRecoilValue(getImageApi);
+
+  const weatherState = useRecoilValue(getWeatherApi);
+
+  console.log(imageState);
+  console.log(weatherState);
+
   useEffect(() => {
     imageAndLikeCount();
   }, []);
@@ -86,8 +66,6 @@ function Home() {
 
     getCurrentWeather();
   }, []);
-
-  console.log(authedUser);
 
   return (
     <>

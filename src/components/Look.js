@@ -55,9 +55,6 @@ function Look() {
     setIsClick(true);
   };
 
-  console.log('images', images);
-  console.log('imgArray', imgArray);
-
   return (
     <>
       <div className='filter'>
