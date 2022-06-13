@@ -1,14 +1,14 @@
-import { ImageStateContext } from '../routes/Home';
-import { weatherStateContext } from '../routes/Home';
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Look.css';
 import Like from './Like.js';
 import Share from './Share';
+import { useRecoilValue } from 'recoil';
+import { getImageApi, getWeatherApi } from '../recoil/apiCallSelector';
 
 function Look() {
   const lookList = ['casual', 'modern', 'street', 'romantic'];
-  const images = useContext(ImageStateContext);
-  const temp = useContext(weatherStateContext);
+  const images = useRecoilValue(getImageApi);
+  const temp = Math.round(useRecoilValue(getWeatherApi).main.temp);
   const [nowTemp, setNowTemp] = useState(17);
   const [imgArray, setImgArray] = useState([]);
   const [isClick, setIsClick] = useState(false);
@@ -75,11 +75,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.src} key={idx} className='image' />
                 <div className='icon-wrapper'>
-                  <Like
-                    count={item.count}
-                    imageName={item.name}
-                    imgNum={item.id}
-                  />
+                  <Like count={item.count} imgNum={item.id} />
                   <Share />
                 </div>
               </div>
