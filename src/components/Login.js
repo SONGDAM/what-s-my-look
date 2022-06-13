@@ -29,6 +29,8 @@ function Login() {
 
   const logout = () => {
     signOut(auth).then(alert('logout!'));
+    //recoil-persist 적용돼서 로컬에 계속 남아있기때문에 안없애면 로그아웃해도 유저정보 계속 뜸
+    localStorage.removeItem('recoil-persist');
   };
 
   return (
