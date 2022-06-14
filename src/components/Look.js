@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
 import '../styles/Look.css';
 import Like from './Like.js';
 import Share from './Share';
+import { weatherStateContext } from '../routes/Home';
+import { useContext, useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { getImageApi, getWeatherApi } from '../recoil/apiCallSelector';
+import { getImageApi } from '../recoil/apiCallSelector';
 
 function Look() {
   const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useRecoilValue(getImageApi);
-  const temp = Math.round(useRecoilValue(getWeatherApi).main.temp);
+  const temp = useContext(weatherStateContext);
   const [nowTemp, setNowTemp] = useState(17);
   const [imgArray, setImgArray] = useState([]);
   const [isClick, setIsClick] = useState(false);
+  //const refresh = useRecoilRefresher_UNSTABLE(getImageApi);
 
   useEffect(() => {
     if (temp >= 23 && temp < 28) {
@@ -75,7 +77,7 @@ function Look() {
         {isClick
           ? imgArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.src} key={idx} className='image' />
+                <img src={item.src} key={item.id} className='image' />
                 <div className='icon-wrapper'>
                   <Like imageDummy={item} />
                   <Share />
@@ -84,7 +86,7 @@ function Look() {
             ))
           : defaultArray.map((item, idx) => (
               <div key={idx}>
-                <img src={item.src} key={idx} className='image' />
+                <img src={item.src} key={item.id} className='image' />
                 <div className='icon-wrapper'>
                   <Like imageDummy={item} />
                   <Share />
