@@ -1,4 +1,11 @@
-import { getDatabase, onValue, push, ref, update } from 'firebase/database';
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  update,
+} from 'firebase/database';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import authState from '../recoil/authState';
@@ -12,10 +19,9 @@ import '../styles/like.css';
 
 function Like({ imageDummy }) {
   const count = imageDummy.count;
-  const imageIndex = imageDummy.id;
+  const imageIndex = imageDummy.id - 1;
   const [isLike, setIsLike] = useState(false); //클릭여부
   const authUser = useRecoilValue(authState); //유저정보 가져오기
-  const currentEmail = authUser.email;
   const db = getDatabase();
 
   //순서도
@@ -24,134 +30,92 @@ function Like({ imageDummy }) {
   // 좋아요 클릭시
 
   // 좋아요 될 때
-  // -ref(database/look/imageNum/likes) 에서 로그인 유저 있는지 찾고 없으면
+  // -ref(database/look/imageNum/likes) 에서 로그인 유저 없으면
   // -ref(database/look/imageNum/likes) push (유저정보)
   // -ref(database/look/imageNum) update (count +1)
 
   // 좋아요 취소 될 때
-  // -ref(database/look/imageNum/likes) 에서 로그인 유저 있는지 찾고 있으면
-  //  -ref(database/look/imageNum) remove? (유저정보)
+  // -ref(database/look/imageNum/likes) 에서 로그인 유저 있으면
+  //  -ref(database/look/imageNum/키값) remove (유저정보)
   //  -ref(database/look/imageNum) update (count -1)
 
-  //좋아요 db 저장
-  // const upLike = () => {
-  // //post user (email, name, profile)
-  // const userData = authUser;
-  // //get key for new like
-  // const newLikeKey = initializeApp
-  //   .getDatabase()
-  //   .ref()
-  //   .child(`database/look/${imageIndex}/likes`)
-  //   .push().key;
-  // const updates = {};
-  // updates[`/database/look/${imageIndex}/likes` + newLikeKey] = userData;
-  // return initializeApp.getDatabase().ref().update(updates);
-  // const newLikeKey = firebase
-  //   .getDatabase()
-  //   .ref()
-  //   .child(`database/look/${imageIndex}/likes`)
-  //   .push().key;
-  // const saveUserIdReference = ref(
-  //   db,
-  //   `database/look/${imageIndex}/likes/${newLikeKey}`
-  // );
-  // update(saveUserIdReference, {
-  //   user: authUser,
-  // });
-  // const saveCountReference = ref(db, `database/look/${imageIndex}/`);
-  // update(saveCountReference, {
-  //   // count: setCount((count) => count + 1),
-  //   // count: count + 1,
-  // });
-
-  // const saveUserReference = ref(db, `database/look/${imageIndex}/likes`);
-  // push(saveUserReference, {
-  //   currentEmail,
-  // });
-  // };
-
-  //좋아요 취소 db 저장
-  // const downLike = (userId) =>{
-  //   const deleteUSerIdReference = ref(db,`database/look/${imgNum}/likes/`);
-  //   update(deleteUSerIdReference,{
-  //     if()
-  //   })
-  // }
-
-  // const reference = ref(db, `database/look/${imgNum}`);
-  // onValue(reference, (snapshot) => {
-  //const data = snapshot.val();
-  //console.log('data', data);
-  //setCount(data);
-  //  });
-
+  //likes의 key,유저목록 가져오기
   // useEffect(() => {
-  //   const getCount = () => {
-  //     fetch(
-  //       'https://what-s-my-look-default-rtdb.firebaseio.com/database/look.json'
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => setUserData(data));
-  //   };
-  //   getCount();
-  // }, []);
-
-  //카운트 개수 가져오기
-  // useEffect(() => {
-
-  // }, [count]);
-
-  //좋아요 버튼 클릭시 uplike/downLike 실행
-  // const toggleLike = () => {
-  //   if (!authUser) {
-  //     alert('로긘해줘');
-  //   }
-
-  //   // if (!isLike) {
-  //   //   setIsLike(true);
-  //   //   upLike();
-  //   // }
-
-  //   //좋아요X & 로그인O  (좋아요)
-  //   if (!isLike && authUser) {
-  //     setIsLike(true);
-  //     upLike();
-  //   }
-
-  //   // downLike(userId);
-  // };
-  console.log(setIsLike);
-  //likes 가져오기
   const getUserfromlikes = () => {
-    const getLikesReference = ref(db, `database/look/${imageIndex - 1}/likes`);
+    const getLikesReference = ref(db, `database/look/${imageIndex}/likes`);
     onValue(getLikesReference, (snapshot) => {
-      const data = snapshot.val();
-      console.log('likes나와야함', data);
-      return data;
+      //likes 내용물 있을때만 key,user 정보 가져오기
+      if (snapshot.exists()) {
+        const key = Object.keys(snapshot.val()); //키
+        const user = Object.values(snapshot.val()).map((list) => list.user); //유저이메일
+        //toggleLike(key, user) //좋아요 클릭 이벤트에 파라미터 넘기기
+        console.log(key, user);
+        return user;
+      }
     });
   };
+  // }, []);
 
-  //유저가 있는데 likes자체가 없거나 이미지 likes 배열중에 유저이메일이 없을때 =>upLike
+  //키값가져오기
+  // const getKeyAndvalues = () => {
+  //   const dbref = ref(db, `database/look/${imageIndex}/likes`);
+
+  //   onValue(dbref, (snapshot) => {
+  //     snapshot.forEach((childSnapshot) => {
+  //       const childKey = childSnapshot.key;
+  //       const childData = Object.values(childSnapshot.val());
+  //       console.log('childKey', childKey, 'childData', childData);
+  //       return childData;
+  //     });
+  //   });
+  // };
+
+  //좋아요 클릭 시
   const toggleLike = () => {
-    const isUser = getUserfromlikes();
-    if (!isUser && authUser) {
+    if (!authUser) {
+      alert('로긘해라');
+    }
+
+    const getKeyAndUser = getUserfromlikes();
+
+    console.log('니뭔데', getKeyAndUser);
+    if (getKeyAndUser === authUser.email) {
+      downLike();
+    }
+    if (getKeyAndUser !== authUser.email) {
       upLike();
     }
   };
 
   const upLike = () => {
-    //유저저장 왜 2개씩 들어가냐고
-    const saveUserReference = ref(db, `database/look/${imageIndex - 1}/likes`);
+    console.log('업');
+    //유저추가
+    const saveUserReference = ref(db, `database/look/${imageIndex}/likes`);
     push(saveUserReference, {
-      currentEmail,
+      user: authUser.email,
     });
     setIsLike(true);
-    console.log('업');
 
-    //카운트 저장
-    const saveCountReference = ref(db, `database/look/${imageIndex - 1}`);
-    update(saveCountReference, {
+    //카운트+1 저장
+    const saveCountPlusReference = ref(db, `database/look/${imageIndex}`);
+    update(saveCountPlusReference, {
       count: count + 1,
+    });
+  };
+
+  const downLike = (key) => {
+    console.log('다운');
+    //유저제거
+    const removeUserReference = ref(
+      db,
+      `database/look/${imageIndex}/likes/${key}`
+    );
+    remove(removeUserReference);
+
+    //카운트-1 저장
+    const saveCountMinusReference = ref(db, `database/look/${imageIndex}`);
+    update(saveCountMinusReference, {
+      count: count - 1,
     });
   };
   return (
