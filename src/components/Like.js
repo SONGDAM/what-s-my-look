@@ -50,7 +50,7 @@ function Like({ imageDummy }) {
         const user = Object.values(snapshot.val()).map((list) => list.user); //유저이메일
         //toggleLike(key, user) //좋아요 클릭 이벤트에 파라미터 넘기기
         console.log(key, user);
-        return;
+        return user;
       }
     });
   };
