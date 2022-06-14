@@ -8,7 +8,7 @@ import '../styles/like.css';
 
 function Like({ imgNum, count }) {
   const [isLike, setIsLike] = useState(false); //클릭여부
-  const authUserEmail = useRecoilValue(authState).email; //유저정보 가져오기
+  const authUserEmail = useRecoilValue(authState); //유저정보 가져오기
   const db = getDatabase();
 
   //좋아요 db 저장
