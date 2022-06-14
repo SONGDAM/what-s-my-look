@@ -20,8 +20,8 @@ import '../styles/like.css';
 function Like({ imageDummy }) {
   const count = imageDummy.count;
   const imageIndex = imageDummy.id - 1;
-  const [isLike, setIsLike] = useState(false); //클릭여부
-  const authUser = useRecoilValue(authState); //유저정보 가져오기
+  const [isLike, setIsLike] = useState(false); //클릭여
+  const authUserEmail = useRecoilValue(authState); //유저정보 가져오기
   const db = getDatabase();
 
   //순서도

@@ -14,7 +14,7 @@ function WeatherInfo() {
   return (
     <div className='title'>
       <span>
-        {weather.name} {`${Math.round(weather.main.temp)}℃`}
+        {weather.name} {`${Math.round(weather.main?.temp)}℃`}
       </span>
       <p>매일 아침 무엇을 입을지 고민하시나요?</p>
       <p>오늘의 기온에 맞는 옷차림을 추천해드려요</p>
