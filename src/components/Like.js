@@ -14,17 +14,17 @@ import { useRecoilValue } from 'recoil';
 import authState from '../recoil/authState';
 
 function Like({ imageDummy }) {
-  const imageIndex = imageDummy.id - 1;
-  const count = imageDummy.count;
   const [isLike, setisLike] = useState(false);
   const [viewNumber, setViewNumber] = useState([]);
   const db = getDatabase();
+  const imageIndex = imageDummy.id - 1;
   const authUser = useRecoilValue(authState);
+  const getLikesUserReference = ref(db, `database/look/${imageIndex}/likes`);
+  const getCountReference = ref(db, `database/look/${imageIndex}`);
 
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
-    const getLikesReference = ref(db, `database/look/${imageIndex}/likes`);
-    onValue(getLikesReference, (snapshot) => {
+    onValue(getLikesUserReference, (snapshot) => {
       if (snapshot.exists()) {
         const user = Object.values(snapshot.val()); //유저이메일
         //로그인했을 때 이미지별 좋아요 눌린 유저중에 로그인 유저랑 같은 사람이 있는지
@@ -35,7 +35,7 @@ function Like({ imageDummy }) {
         }
       }
     });
-  }, [authUser, db, imageIndex]);
+  }, [getLikesUserReference, authUser, db, imageIndex]);
 
   //좋아요 클릭 시
   const toggleLike = () => {
@@ -43,7 +43,6 @@ function Like({ imageDummy }) {
       alert('로그인 후 이용 가능합니다.');
       return;
     }
-
     setisLike((prev) => !prev);
 
     if (!isLike) {
@@ -58,13 +57,9 @@ function Like({ imageDummy }) {
     console.log('다운');
 
     //유저제거
-    const getLikesReference = ref(db, `database/look/${imageIndex}/likes`);
-    onValue(getLikesReference, (snapshot) => {
+    onValue(getLikesUserReference, (snapshot) => {
       if (snapshot.exists()) {
         const key = Object.keys(snapshot.val()); //키
-        const user = Object.values(snapshot.val()).map((list) => list.user); //유저이메일
-        console.log(key, user);
-
         const removeUserReference = ref(
           db,
           `database/look/${imageIndex}/likes/${key}`
@@ -74,9 +69,8 @@ function Like({ imageDummy }) {
     });
 
     //카운트-1
-    const saveCountMinusReference = ref(db, `database/look/${imageIndex}`);
-    update(saveCountMinusReference, {
-      count: count - 1,
+    update(getCountReference, {
+      count: viewNumber.count - 1,
     });
   };
 
@@ -84,15 +78,13 @@ function Like({ imageDummy }) {
   const upLike = () => {
     console.log('업');
     //유저추가
-    const saveUserReference = ref(db, `database/look/${imageIndex}/likes`);
-    push(saveUserReference, {
+    push(getLikesUserReference, {
       user: authUser.email,
     });
 
     //카운트+1
-    const saveCountPlusReference = ref(db, `database/look/${imageIndex}`);
-    update(saveCountPlusReference, {
-      count: count + 1,
+    update(getCountReference, {
+      count: viewNumber.count + 1,
     });
   };
 
@@ -106,8 +98,6 @@ function Like({ imageDummy }) {
     };
     res();
   }, [imageIndex, isLike]);
-
-  // console.log('viewNumber', Object.keys(viewNumber.likes).length);
 
   return (
     <>
