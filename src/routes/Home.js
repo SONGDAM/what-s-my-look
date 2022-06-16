@@ -3,7 +3,6 @@ import Carousel from '../components/Carousel';
 import '../styles/global.css';
 import NavBar from '../components/NavBar';
 import Look from '../components/Look';
-import Login from '../components/Login';
 import { useState, useEffect, createContext } from 'react';
 
 export const weatherStateContext = createContext(null);
@@ -50,7 +49,6 @@ function Home() {
         <NavBar />
         <Carousel />
         <Look />
-        <Login />
       </weatherStateContext.Provider>
     </>
   );

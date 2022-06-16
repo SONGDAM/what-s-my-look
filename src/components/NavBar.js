@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import '../styles/NavBar.css';
 import logo from '../assets/icon/logo.svg';
 import { useRecoilValue } from 'recoil';
-import authState from '../recoil/authState';
+import { authState, isLoggedInState } from '../recoil/authState';
+import Modal from './Modal';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
@@ -32,10 +33,15 @@ function NavBar() {
         </div>
 
         <div className='nav-content'>
-          <span>{authedUser?.nickName}</span>
-          <Link to='/liked'>
-            <span>Liked</span>
-          </Link>
+          <span className='user-name'>{authedUser?.nickName}</span>
+
+          {isLoggedInState ? (
+            <Link to='/liked'>
+              <span>Liked</span>
+            </Link>
+          ) : (
+            <Modal>안녕?</Modal>
+          )}
         </div>
       </div>
     </div>

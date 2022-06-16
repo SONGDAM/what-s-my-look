@@ -1,0 +1,13 @@
+.modal {
+  position: fixed;
+  width: 37.5rem;
+  height: 30rem;
+  border-radius: 1rem;
+  background-color: #fff;
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background: #777;
+}
