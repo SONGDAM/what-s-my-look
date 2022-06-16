@@ -7,6 +7,7 @@ const authState = atom({
   key: 'authState',
   default: null,
   effects_UNSTABLE: [persistAtom],
+  dangerouslyAllowMutability: true,
 });
 
 export const isLoggedInState = atom({

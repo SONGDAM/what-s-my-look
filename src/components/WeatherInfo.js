@@ -1,11 +1,10 @@
 import '../styles/Carousel.css';
-import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { getWeatherApi } from '../recoil/apiCallSelector';
+import React, { useContext } from 'react';
+import { weatherStateContext } from '../routes/Home';
 
 function WeatherInfo() {
-  //recoil로 데이터 받아오기(temp, city)
-  const weather = useRecoilValue(getWeatherApi);
+  //useContext로 데이터 받아오기(temp, city)
+  const weather = useContext(weatherStateContext);
 
   const scrollTo = () => {
     window.scrollTo(0, 1000);
@@ -14,7 +13,8 @@ function WeatherInfo() {
   return (
     <div className='title'>
       <span>
-        {weather.name} {`${Math.round(weather.main?.temp)}℃`}
+        {weather.city}{' '}
+        {weather.temp ? `${Math.round(weather.temp)}℃` : 'Loading...'}{' '}
       </span>
       <p>매일 아침 무엇을 입을지 고민하시나요?</p>
       <p>오늘의 기온에 맞는 옷차림을 추천해드려요</p>
