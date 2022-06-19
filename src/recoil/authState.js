@@ -13,7 +13,6 @@ export const authState = atom({
 export const isLoggedInState = atom({
   key: 'isLoggedInState',
   default: false,
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const tokenState = atom({

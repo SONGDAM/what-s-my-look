@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/NavBar.css';
 import logo from '../assets/icon/logo.svg';
-import { useRecoilValue } from 'recoil';
-import { authState, isLoggedInState } from '../recoil/authState';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { authState } from '../recoil/authState';
+import ModalPortal from './ModalPortal';
 import Modal from './Modal';
+import '../styles/Modal.css';
+import { modalState } from '../recoil/modalState';
+
+//import Modal from './Modal';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
+  const [isModalOn, setIsModalOn] = useRecoilState(modalState);
   const authedUser = useRecoilValue(authState);
+
+  console.log(authedUser);
+
+  const navigate = useNavigate();
 
   const handleNav = () => {
     if (window.scrollY > 500) {
@@ -25,26 +35,33 @@ function NavBar() {
     };
   }, []);
 
+  const validateUser = () => {
+    if (authedUser === null && !localStorage.getItem('recoil-persist')) {
+      setIsModalOn((prev) => !prev);
+      document.body.style.overflow = 'hidden';
+    }
+    if (localStorage.getItem('recoil-persist')) {
+      navigate('/liked');
+      alert('환영합니다');
+    }
+  };
+
   return (
-    <div>
+    <header>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
         <div className='nav-title'>
           <img src={logo} alt='' />
         </div>
-
         <div className='nav-content'>
-          <span className='user-name'>{authedUser?.nickName}</span>
-
-          {isLoggedInState ? (
-            <Link to='/liked'>
-              <span>Liked</span>
-            </Link>
-          ) : (
-            <Modal>안녕?</Modal>
+          {authedUser !== null ? null : (
+            <span className='user-name'>{authedUser?.nickName}</span>
           )}
+          <div onClick={validateUser}>Liked</div>
+
+          <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
