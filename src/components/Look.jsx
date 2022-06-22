@@ -1,5 +1,5 @@
 import '../styles/Look.css';
-import Like from './Like.js';
+import Like from './Like';
 import Share from './Share';
 import { weatherStateContext } from '../routes/Home';
 import { useContext, useState, useEffect } from 'react';
@@ -61,39 +61,41 @@ function Look() {
 
   return (
     <>
-      <div className='filter'>
-        {lookList.map((item, idx) => (
-          <button
-            key={idx}
-            id={idx}
-            onClick={onClick}
-            className='filter-button'
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <div className='card'>
-        {isClick
-          ? imgArray.map((item, idx) => (
-              <div key={idx}>
-                <img src={item.src} key={item.id} className='image' />
-                <div className='icon-wrapper'>
-                  <Like images={item} />
-                  <Share />
+      <section>
+        <div className='filter'>
+          {lookList.map((item, idx) => (
+            <button
+              key={idx}
+              id={idx}
+              onClick={onClick}
+              className='filter-button'
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <div className='card'>
+          {isClick
+            ? imgArray.map((item, idx) => (
+                <div key={idx}>
+                  <img src={item.src} key={item.id} className='image' />
+                  <div className='icon-wrapper'>
+                    <Like images={item} />
+                    <Share />
+                  </div>
                 </div>
-              </div>
-            ))
-          : defaultArray.map((item, idx) => (
-              <div key={idx}>
-                <img src={item.src} key={item.id} className='image' />
-                <div className='icon-wrapper'>
-                  <Like images={item} />
-                  <Share />
+              ))
+            : defaultArray.map((item, idx) => (
+                <div key={idx}>
+                  <img src={item.src} key={item.id} className='image' />
+                  <div className='icon-wrapper'>
+                    <Like images={item} />
+                    <Share />
+                  </div>
                 </div>
-              </div>
-            ))}
-      </div>
+              ))}
+        </div>
+      </section>
     </>
   );
 }

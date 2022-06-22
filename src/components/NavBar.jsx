@@ -16,8 +16,6 @@ function NavBar() {
   const [isModalOn, setIsModalOn] = useRecoilState(modalState);
   const authedUser = useRecoilValue(authState);
 
-  console.log(authedUser);
-
   const navigate = useNavigate();
 
   const handleNav = () => {
