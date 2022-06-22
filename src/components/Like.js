@@ -7,11 +7,11 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
 
-function Like({ imageDummy }) {
+function Like({ images }) {
   const [isLike, setisLike] = useState(false);
-  const [viewNumber, setViewNumber] = useState([]);
+  const [lookDatabase, setLookDatabase] = useState([]);
 
-  const imageIndex = imageDummy.id - 1;
+  const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
   const getLikesUserReference = ref(
     database,
@@ -25,7 +25,7 @@ function Like({ imageDummy }) {
         `https://what-s-my-look-default-rtdb.firebaseio.com/database/look/${imageIndex}.json`
       )
         .then((response) => response.json())
-        .then((data) => setViewNumber(data));
+        .then((data) => setLookDatabase(data));
     };
     res();
   }, [imageIndex, isLike]);
@@ -54,9 +54,12 @@ function Like({ imageDummy }) {
 
     if (isLike) {
       downLike();
+      deletelikedImages();
+
       return;
     }
     upLike();
+    addLikedImages();
   };
 
   //좋아요
@@ -79,7 +82,7 @@ function Like({ imageDummy }) {
 
     //카운트+1
     update(getCountReference, {
-      count: viewNumber.count + 1,
+      count: lookDatabase.count + 1,
     });
   };
 
@@ -88,8 +91,8 @@ function Like({ imageDummy }) {
     setisLike(false);
 
     //유저제거
-    if (viewNumber.likes) {
-      const toArray = Object.values(viewNumber.likes);
+    if (lookDatabase.likes) {
+      const toArray = Object.values(lookDatabase.likes);
       const userFilter = toArray.filter((item) => item.user === authUser.email);
       const likesUuid = userFilter[0].uuid;
 
@@ -102,9 +105,31 @@ function Like({ imageDummy }) {
 
       //카운트-1
       update(getCountReference, {
-        count: viewNumber.count - 1,
+        count: lookDatabase.count - 1,
       });
     }
+  };
+
+  //선택된 이미지 로컬에 추가
+  const addLikedImages = () => {
+    const preveLikedImages = JSON.parse(
+      localStorage.getItem('likedImages') || '[]'
+    );
+
+    localStorage.setItem(
+      'likedImages',
+      JSON.stringify([...preveLikedImages, images])
+    );
+  };
+
+  //선택된 이미지 로컬에 제거
+  const deletelikedImages = () => {
+    const getLikedImages = JSON.parse(localStorage.getItem('likedImages'));
+    const deleteLikedImages = getLikedImages.filter(
+      (item) => item.id !== images.id
+    );
+
+    localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
   };
 
   return (
@@ -113,7 +138,7 @@ function Like({ imageDummy }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {viewNumber.count}
+        {lookDatabase.count}
       </div>
     </>
   );
