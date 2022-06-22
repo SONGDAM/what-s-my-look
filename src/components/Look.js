@@ -79,7 +79,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.src} key={item.id} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageDummy={item} />
+                  <Like images={item} />
                   <Share />
                 </div>
               </div>
@@ -88,7 +88,7 @@ function Look() {
               <div key={idx}>
                 <img src={item.src} key={item.id} className='image' />
                 <div className='icon-wrapper'>
-                  <Like imageDummy={item} />
+                  <Like images={item} />
                   <Share />
                 </div>
               </div>
