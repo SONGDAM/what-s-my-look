@@ -1,6 +1,6 @@
 .filter {
   margin-top: 10rem;
-  padding: 4.5rem 0.5rem 1.5rem 0.5rem;
+  padding: 4.5rem 0 1.5rem 0;
   text-align: center;
 }
 
@@ -13,6 +13,7 @@
   border: 1px solid gray;
   border-radius: 30px;
   box-shadow: 3px 3px 1px -2px rgb(227, 227, 227);
+  font-size: 0.7rem;
 }
 
 .filter-button:focus {
@@ -34,16 +35,22 @@
 }
 
 .card {
-  margin-top: 10rem;
+  /* margin-top: 10rem; */
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-bottom: 3rem;
+  /* background-color: aqua; */
 }
 
-.card:first-child {
-  margin-top: 1rem !important;
+.likedPage.card {
+  margin-top: 7rem;
+}
+
+.card > div:first-child > .image {
+  margin-top: 0;
 }
 
 .image {
@@ -80,9 +87,13 @@
 
   .card {
     width: 84vw;
-    margin: 0 auto;
+    margin: 1.5rem auto;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .likedPage.card {
+    margin-top: 15rem;
   }
 
   .image {
