@@ -7,6 +7,13 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
 
+// 비로그인
+// 비로그인해서 좋아요를 눌리면 로그인 시 좋아요 한것들을 볼 수 있다 알림창 띄움
+// 좋아요 한 거 로컬에 비로그인용 좋아요 이미지 저장 (리코일)
+// 로그인해서 로컬에 비로그인용 좋아요 이미지가 있다면 로그인 좋아요 로컬에 담기
+// 로컬에 비로그인 좋아요 리셋
+// 파이어베이스에 유저정보 저장
+
 function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState([]);
@@ -48,8 +55,8 @@ function Like({ images }) {
   //좋아요 클릭 시
   const toggleLike = () => {
     if (!authUser) {
-      alert('로그인 후 이용 가능합니다.');
-      return;
+      alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
+      // return;
     }
 
     if (isLike) {
@@ -66,60 +73,84 @@ function Like({ images }) {
   const upLike = () => {
     setisLike(true);
 
-    //likes안에 저장될 고유키 생성
-    const newLikeKey = push(child(ref(database), `likes`)).key;
+    if (authUser) {
+      //likes안에 저장될 고유키 생성
+      const newLikeKey = push(child(ref(database), `likes`)).key;
 
-    //저장할 값 ( 이메일 , 고유키)
-    const likeData = {
-      user: authUser.email,
-      uuid: newLikeKey,
-    };
+      //저장할 값 ( 이메일 , 고유키)
+      const likeData = {
+        user: authUser.email,
+        uuid: newLikeKey,
+      };
 
-    //유저 저장
-    const updates = {};
-    updates[`/database/look/${imageIndex}/likes/` + newLikeKey] = likeData;
-    update(ref(database), updates);
+      //유저 저장
+      const updates = {};
+      updates[`/database/look/${imageIndex}/likes/` + newLikeKey] = likeData;
+      update(ref(database), updates);
 
-    //카운트+1
-    update(getCountReference, {
-      count: lookDatabase.count + 1,
-    });
+      //카운트+1
+      update(getCountReference, {
+        count: lookDatabase.count + 1,
+      });
+    }
+
+    //비로그인시로그인시
   };
 
+  const { count } = lookDatabase;
+
+  if (!authUser) {
+    setLookDatabase(...lookDatabase, (count) => count + 1);
+  }
   //좋아요 취소
   const downLike = () => {
     setisLike(false);
 
-    //유저제거
-    if (lookDatabase.likes) {
-      const toArray = Object.values(lookDatabase.likes);
-      const userFilter = toArray.filter((item) => item.user === authUser.email);
-      const likesUuid = userFilter[0].uuid;
+    if (authUser) {
+      //유저제거
+      if (lookDatabase.likes) {
+        const toArray = Object.values(lookDatabase.likes);
+        const userFilter = toArray.filter(
+          (item) => item.user === authUser.email
+        );
+        const likesUuid = userFilter[0].uuid;
 
-      const removeUserReference = ref(
-        database,
-        `database/look/${imageIndex}/likes/${likesUuid}`
-      );
+        const removeUserReference = ref(
+          database,
+          `database/look/${imageIndex}/likes/${likesUuid}`
+        );
 
-      remove(removeUserReference);
+        remove(removeUserReference);
 
-      //카운트-1
-      update(getCountReference, {
-        count: lookDatabase.count - 1,
-      });
+        //카운트-1
+        update(getCountReference, {
+          count: lookDatabase.count - 1,
+        });
+      }
     }
   };
 
-  //선택된 이미지 로컬에 추가
+  //선택된 이미지 로컬에 추가로컬에 추가
   const addLikedImages = () => {
-    const preveLikedImages = JSON.parse(
+    const prevLikedImages = JSON.parse(
       localStorage.getItem('likedImages') || '[]'
+    );
+
+    const prevNonLoginLikedImages = JSON.parse(
+      localStorage.getItem('nonLoginLikedImages') || '[]'
     );
 
     localStorage.setItem(
       'likedImages',
-      JSON.stringify([...preveLikedImages, images])
+      JSON.stringify([...prevLikedImages, images])
     );
+
+    if (!authUser) {
+      localStorage.setItem(
+        'nonLoginLikedImages',
+        JSON.stringify([...prevNonLoginLikedImages, images])
+      );
+    }
   };
 
   //선택된 이미지 로컬에 제거

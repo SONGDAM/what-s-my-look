@@ -16,3 +16,9 @@ export const likedImagesState = atom({
   key: 'likedImagesState',
   default: localStorage.getItem('likedImages'),
 });
+
+//비로그인 좋아요 이미지 저장
+export const nonLoginLikedImagesState = atom({
+  key: 'nonLoginLikedImagesState',
+  default: localStorage.getItem('nonLoginLikedImages'),
+});

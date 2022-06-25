@@ -1,6 +1,5 @@
 import '../styles/Look.css';
 import Like from './Like';
-import Share from './Share';
 import { weatherStateContext } from '../routes/Home';
 import { useContext, useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -77,20 +76,18 @@ function Look() {
         <div className='card'>
           {isClick
             ? imgArray.map((item, idx) => (
-                <div key={idx}>
+                <div key={idx} className='image-box'>
                   <img src={item.src} key={item.id} className='image' />
                   <div className='icon-wrapper'>
                     <Like images={item} />
-                    <Share />
                   </div>
                 </div>
               ))
             : defaultArray.map((item, idx) => (
-                <div key={idx}>
+                <div key={idx} className='image-box'>
                   <img src={item.src} key={item.id} className='image' />
                   <div className='icon-wrapper'>
                     <Like images={item} />
-                    <Share />
                   </div>
                 </div>
               ))}
