@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import '../styles/NavBar.css';
 import logo from '../assets/icon/logo.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { authState } from '../recoil/authState';
 import ModalPortal from './ModalPortal';
 import Modal from './Modal';
 import '../styles/Modal.css';
 import { modalState } from '../recoil/modalState';
 import { Link } from 'react-router-dom';
-//import Modal from './Modal';
+import { signOut } from 'firebase/auth';
+import { auth } from '../components/firebase';
 
-function NavBar({ handlerLogout }) {
+function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
   const [isModalOn, setIsModalOn] = useRecoilState(modalState);
   const authedUser = useRecoilValue(authState);
-
-  // const navigate = useNavigate();
+  const handleModal = useSetRecoilState(modalState);
 
   const handleNav = () => {
     if (window.scrollY > 500) {
@@ -45,9 +44,18 @@ function NavBar({ handlerLogout }) {
       document.body.style.overflow = 'hidden';
     }
     if (localStorage.getItem('recoil-persist')) {
-      // navigate('/liked');
-      window.location.replace('/liked');
+      window.location.href = 'http://localhost:3000/liked';
     }
+  };
+
+  const logout = () => {
+    signOut(auth).then(alert('logout!'));
+    localStorage.removeItem('recoil-persist');
+
+    //navigate('/');
+    handleModal((prev) => !prev);
+    window.location.href = 'http://localhost:3000/';
+    document.body.style.overflow = 'unset';
   };
 
   return (
@@ -60,7 +68,7 @@ function NavBar({ handlerLogout }) {
         </div>
         <div className='nav-content'>
           {window.location.pathname === '/liked' ? (
-            <button onClick={handlerLogout}>Logout</button>
+            <button onClick={logout}>Logout</button>
           ) : (
             <>
               {authedUser !== null ? null : (

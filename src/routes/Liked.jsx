@@ -6,11 +6,29 @@ import { likedImagesState } from '../recoil/apiCallSelector';
 import '../styles/Look.css';
 import NavBar from '../components/NavBar';
 import Like from '../components/Like';
-
+import { useEffect } from 'react';
+import { authState } from '../recoil/authState';
 function Liked() {
   const handleModal = useSetRecoilState(modalState);
   const getLikedImagesState = useRecoilValue(likedImagesState);
   const LikedImages = JSON.parse(getLikedImagesState);
+  const getUnAuthedLikeImage = localStorage.getItem('nonLoginLikedImages');
+  const unAuthedLikeImage = JSON.parse(getUnAuthedLikeImage);
+  const authUser = useRecoilValue(authState);
+
+  useEffect(() => {
+    console.log(typeof unAuthedLikeImage);
+    if (unAuthedLikeImage && authUser) {
+      localStorage.setItem('likedImages', JSON.stringify(unAuthedLikeImage));
+    }
+
+    const getLikedImages = JSON.parse(localStorage.getItem('likedImages'));
+    const deleteLikedImages = getLikedImages.filter(
+      (item) => item.id !== unAuthedLikeImage.id
+    );
+
+    localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
+  }, [authUser, unAuthedLikeImage]);
 
   const logout = () => {
     signOut(auth).then(alert('logout!'));
