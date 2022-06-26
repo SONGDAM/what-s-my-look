@@ -12,7 +12,6 @@ function Look() {
   const [nowTemp, setNowTemp] = useState(17);
   const [imgArray, setImgArray] = useState([]);
   const [isClick, setIsClick] = useState(false);
-  //const refresh = useRecoilRefresher_UNSTABLE(getImageApi);
 
   useEffect(() => {
     if (temp >= 23 && temp < 28) {
@@ -45,18 +44,18 @@ function Look() {
     }
   }, [temp]);
 
-  const defaultArray = images.filter((item) => item.temperature === nowTemp);
+  const defaultArray = Object.values(images).filter(
+    (item) => item.temperature === nowTemp
+  );
 
   const onClick = (e) => {
     const buttonName = e.target.textContent;
-    const result = images.filter(
+    const result = Object.values(images).filter(
       (image) => image.look === buttonName && image.temperature === nowTemp
     );
     setImgArray(result);
     setIsClick(true);
   };
-
-  console.log(imgArray, defaultArray);
 
   return (
     <>
