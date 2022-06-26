@@ -17,6 +17,7 @@ import { database } from './firebase';
 function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState([]);
+  const [unAuthedUser, setUnAuthedUser] = useState(false);
 
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
@@ -35,7 +36,7 @@ function Like({ images }) {
         .then((data) => setLookDatabase(data));
     };
     res();
-  }, [imageIndex, isLike]);
+  }, [imageIndex]);
 
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
@@ -52,10 +53,16 @@ function Like({ images }) {
     });
   }, [getLikesUserReference, authUser, imageIndex]);
 
+  useEffect(() => {
+    if (!authUser) {
+      setUnAuthedUser(true);
+    }
+  }, [authUser]);
+
   //좋아요 클릭 시
   const toggleLike = () => {
     if (!authUser) {
-      alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
+      // alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
       // return;
     }
 
@@ -94,14 +101,23 @@ function Like({ images }) {
       });
     }
 
-    //비로그인시로그인시
+    if (unAuthedUser) {
+      const prevLikedImages = JSON.parse(
+        localStorage.getItem('nonLoginLikedImages') || '[]'
+      );
+
+      localStorage.setItem(
+        'nonLoginLikedImages',
+        JSON.stringify([...prevLikedImages, images])
+      );
+
+      setLookDatabase();
+    }
   };
 
-  const { count } = lookDatabase;
+  console.log(unAuthedUser);
 
-  if (!authUser) {
-    setLookDatabase(...lookDatabase, (count) => count + 1);
-  }
+  // const { count } = lookDatabase;
   //좋아요 취소
   const downLike = () => {
     setisLike(false);
@@ -132,25 +148,23 @@ function Like({ images }) {
 
   //선택된 이미지 로컬에 추가로컬에 추가
   const addLikedImages = () => {
-    const prevLikedImages = JSON.parse(
-      localStorage.getItem('likedImages') || '[]'
-    );
+    if (authUser) {
+      const prevLikedImages = JSON.parse(
+        localStorage.getItem('likedImages') || '[]'
+      );
 
-    const prevNonLoginLikedImages = JSON.parse(
-      localStorage.getItem('nonLoginLikedImages') || '[]'
-    );
-
-    localStorage.setItem(
-      'likedImages',
-      JSON.stringify([...prevLikedImages, images])
-    );
-
-    if (!authUser) {
       localStorage.setItem(
-        'nonLoginLikedImages',
-        JSON.stringify([...prevNonLoginLikedImages, images])
+        'likedImages',
+        JSON.stringify([...prevLikedImages, images])
       );
     }
+
+    // if (!authUser) {
+    //   localStorage.setItem(
+    //     'nonLoginLikedImages',
+    //     JSON.stringify([...prevNonLoginLikedImages, images])
+    //   );
+    // }
   };
 
   //선택된 이미지 로컬에 제거
