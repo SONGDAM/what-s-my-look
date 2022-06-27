@@ -28,6 +28,12 @@ function Like({ images }) {
   const getCountReference = ref(database, `database/look/${imageIndex}`);
 
   useEffect(() => {
+    if (!authUser) {
+      setUnAuthedUser(true);
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     const res = async () => {
       fetch(
         `https://what-s-my-look-default-rtdb.firebaseio.com/database/look/${imageIndex}.json`
@@ -53,28 +59,7 @@ function Like({ images }) {
     });
   }, [getLikesUserReference, authUser, imageIndex]);
 
-  useEffect(() => {
-    if (!authUser) {
-      setUnAuthedUser(true);
-    }
-  }, [authUser]);
-
   //좋아요 클릭 시
-  const toggleLike = () => {
-    if (!authUser) {
-      // alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
-      // return;
-    }
-
-    if (isLike) {
-      downLike();
-      deletelikedImages();
-
-      return;
-    }
-    upLike();
-    addLikedImages();
-  };
 
   //좋아요
   const upLike = () => {
@@ -115,34 +100,25 @@ function Like({ images }) {
     }
   };
 
-  console.log(unAuthedUser);
-
-  // const { count } = lookDatabase;
-  //좋아요 취소
   const downLike = () => {
     setisLike(false);
 
-    if (authUser) {
-      //유저제거
-      if (lookDatabase.likes) {
-        const toArray = Object.values(lookDatabase.likes);
-        const userFilter = toArray.filter(
-          (item) => item.user === authUser.email
-        );
-        const likesUuid = userFilter[0].uuid;
+    if (authUser && lookDatabase.likes) {
+      const toArray = Object.values(lookDatabase.likes);
+      const userFilter = toArray.filter((item) => item.user === authUser.email);
+      const likesUuid = userFilter[0].uuid;
 
-        const removeUserReference = ref(
-          database,
-          `database/look/${imageIndex}/likes/${likesUuid}`
-        );
+      const removeUserReference = ref(
+        database,
+        `database/look/${imageIndex}/likes/${likesUuid}`
+      );
 
-        remove(removeUserReference);
+      remove(removeUserReference);
 
-        //카운트-1
-        update(getCountReference, {
-          count: lookDatabase.count - 1,
-        });
-      }
+      //카운트-1
+      update(getCountReference, {
+        count: lookDatabase.count - 1,
+      });
     }
   };
 
@@ -158,13 +134,6 @@ function Like({ images }) {
         JSON.stringify([...prevLikedImages, images])
       );
     }
-
-    // if (!authUser) {
-    //   localStorage.setItem(
-    //     'nonLoginLikedImages',
-    //     JSON.stringify([...prevNonLoginLikedImages, images])
-    //   );
-    // }
   };
 
   //선택된 이미지 로컬에 제거
@@ -175,6 +144,17 @@ function Like({ images }) {
     );
 
     localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
+  };
+
+  const toggleLike = () => {
+    if (isLike) {
+      downLike();
+      deletelikedImages();
+
+      return;
+    }
+    upLike();
+    addLikedImages();
   };
 
   return (
