@@ -7,10 +7,6 @@ import { useState, useEffect, createContext } from 'react';
 export const weatherStateContext = createContext(null);
 
 function Home() {
-  useEffect(() => {
-    window.Kakao.init(process.env.REACT_APP_KAKAO_AUTH_KEY);
-  }, []);
-
   const [weather, setWeather] = useState({
     city: '',
     temp: '',
