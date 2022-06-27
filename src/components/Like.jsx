@@ -18,7 +18,6 @@ function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState([]);
   const [unAuthedUser, setUnAuthedUser] = useState(false);
-  const [tempCount, setTempCount] = useState('');
 
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
@@ -45,10 +44,6 @@ function Like({ images }) {
     res();
   }, [imageIndex]);
 
-  useEffect(() => {
-    setTempCount(lookDatabase);
-  }, [lookDatabase]);
-
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
     onValue(getLikesUserReference, (snapshot) => {
@@ -64,7 +59,28 @@ function Like({ images }) {
     });
   }, [getLikesUserReference, authUser, imageIndex]);
 
+  useEffect(() => {
+    if (!authUser) {
+      setUnAuthedUser(true);
+    }
+  }, [authUser]);
+
   //좋아요 클릭 시
+  const toggleLike = () => {
+    if (!authUser) {
+      // alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
+      // return;
+    }
+
+    if (isLike) {
+      downLike();
+      deletelikedImages();
+
+      return;
+    }
+    upLike();
+    addLikedImages();
+  };
 
   //좋아요
   const upLike = () => {
@@ -103,12 +119,14 @@ function Like({ images }) {
         JSON.stringify([...prevLikedImages, images])
       );
 
-      setTempCount(tempCount.count + 1);
-      console.log(lookDatabase.count);
+      setLookDatabase();
     }
   };
 
+  console.log(unAuthedUser);
 
+  // const { count } = lookDatabase;
+  //좋아요 취소
   const downLike = () => {
     setisLike(false);
 
@@ -158,6 +176,13 @@ function Like({ images }) {
         JSON.stringify([...prevLikedImages, images])
       );
     }
+
+    // if (!authUser) {
+    //   localStorage.setItem(
+    //     'nonLoginLikedImages',
+    //     JSON.stringify([...prevNonLoginLikedImages, images])
+    //   );
+    // }
   };
 
   //선택된 이미지 로컬에 제거
@@ -170,24 +195,13 @@ function Like({ images }) {
     localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
   };
 
-  const toggleLike = () => {
-    if (isLike) {
-      downLike();
-      deletelikedImages();
-
-      return;
-    }
-    upLike();
-    addLikedImages();
-  };
-
   return (
     <>
       <div className='like-container'>
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {!authUser ? `비:${tempCount.count}` : `로${lookDatabase.count}`}
+        ${lookDatabase.count}
         {/* {lookDatabase.count}
         {tempCount.count} */}
       </div>
