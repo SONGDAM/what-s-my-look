@@ -5,10 +5,7 @@ import { useRecoilState } from 'recoil';
 import { authState } from '../recoil/authState';
 import '../styles/Modal.css';
 
-import { useNavigate } from 'react-router';
-
 function Login() {
-  const navigate = useNavigate();
   const [authedUser, setAuth] = useRecoilState(authState);
 
   const signUpWithGoogle = () => {
@@ -22,7 +19,7 @@ function Login() {
       };
 
       setAuth(user);
-      navigate('/liked');
+      window.location.href = 'http://localhost:3000/liked';
     });
   };
 

@@ -18,6 +18,7 @@ function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState([]);
   const [unAuthedUser, setUnAuthedUser] = useState(false);
+  const [tempCount, setTempCount] = useState('');
 
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
@@ -44,6 +45,10 @@ function Like({ images }) {
     res();
   }, [imageIndex]);
 
+  useEffect(() => {
+    setTempCount(lookDatabase);
+  }, [lookDatabase]);
+
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
     onValue(getLikesUserReference, (snapshot) => {
@@ -65,6 +70,7 @@ function Like({ images }) {
   const upLike = () => {
     setisLike(true);
 
+    //로그인
     if (authUser) {
       //likes안에 저장될 고유키 생성
       const newLikeKey = push(child(ref(database), `likes`)).key;
@@ -86,19 +92,22 @@ function Like({ images }) {
       });
     }
 
+    //비로그인
     if (unAuthedUser) {
       const prevLikedImages = JSON.parse(
-        localStorage.getItem('nonLoginLikedImages') || '[]'
+        sessionStorage.getItem('nonLoginLikedImages') || '[]'
       );
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         'nonLoginLikedImages',
         JSON.stringify([...prevLikedImages, images])
       );
 
-      setLookDatabase();
+      setTempCount(tempCount.count + 1);
+      console.log(lookDatabase.count);
     }
   };
+
 
   const downLike = () => {
     setisLike(false);
@@ -119,6 +128,21 @@ function Like({ images }) {
       update(getCountReference, {
         count: lookDatabase.count - 1,
       });
+    }
+
+    //비로그인
+    if (unAuthedUser) {
+      const getLikedImages = JSON.parse(
+        sessionStorage.getItem('nonLoginLikedImages')
+      );
+      const deleteLikedImages = getLikedImages.filter(
+        (item) => item.id !== images.id
+      );
+
+      sessionStorage.setItem(
+        'nonLoginLikedImages',
+        JSON.stringify(deleteLikedImages)
+      );
     }
   };
 
@@ -163,7 +187,9 @@ function Like({ images }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {lookDatabase.count}
+        {!authUser ? `비:${tempCount.count}` : `로${lookDatabase.count}`}
+        {/* {lookDatabase.count}
+        {tempCount.count} */}
       </div>
     </>
   );
