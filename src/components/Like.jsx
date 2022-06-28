@@ -6,24 +6,12 @@ import { update, ref, onValue, push, child, remove } from 'firebase/database';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
-import { cloneDeep } from 'lodash';
-
-// import cloneDeep from 'lodash.clonedeep';
-
-// import { nonLoginLikedImagesState } from '../recoil/apiCallSelector';
-
-// 비로그인
-// 비로그인해서 좋아요를 눌리면 로그인 시 좋아요 한것들을 볼 수 있다 알림창 띄움
-// 좋아요 한 거 로컬에 비로그인용 좋아요 이미지 저장 (리코일)
-// 로그인해서 로컬에 비로그인용 좋아요 이미지가 있다면 로그인 좋아요 로컬에 담기
-// 로컬에 비로그인 좋아요 리셋
-// 파이어베이스에 유저정보 저장
 
 function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState({});
   const [unAuthedUser, setUnAuthedUser] = useState(false);
-  const [newLookDatabase, setNewLookDatabase] = useState({});
+
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
   const getLikesUserReference = ref(
@@ -32,25 +20,11 @@ function Like({ images }) {
   );
   const getCountReference = ref(database, `database/look/${imageIndex}`);
 
-  // const nonLoginLikedImage = useRecoilValue(nonLoginLikedImagesState);
-  // console.log(nonLoginLikedImage.length);
-  // useEffect(() => {
-  //   const nonLoginLikedImage =
-  //     JSON.parse(sessionStorage.getItem('nonLoginLikedImages')) || [];
-  //   setTempCount(nonLoginLikedImage.length);
-  // }, [isLike]);
-
   useEffect(() => {
     if (!authUser) {
       setUnAuthedUser(true);
     }
   }, [authUser]);
-
-  useEffect(() => {
-    setNewLookDatabase(cloneDeep(lookDatabase.count));
-    // setNewLookDatabase(cloneDeep(lookDatabase));
-  }, [lookDatabase]);
-  // console.log(newLookDatabase.count === lookDatabase.count);
 
   useEffect(() => {
     const res = async () => {
@@ -62,8 +36,6 @@ function Like({ images }) {
     };
     res();
   }, [imageIndex, isLike]);
-
-  //세션개수
 
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
@@ -80,16 +52,10 @@ function Like({ images }) {
     });
   }, [getLikesUserReference, authUser, imageIndex]);
 
-  // const test = { count: 1, id: 68, look: 'street', name: '17_8_s' };
-
-  // const newTest = JSON.parse(JSON.stringify(test));
-
-  // console.log(newTest.count === test.count);
-
   //좋아요 클릭 시
   const toggleLike = () => {
     if (!authUser) {
-      // alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
+      alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
       // return;
     }
 
@@ -139,9 +105,6 @@ function Like({ images }) {
         'nonLoginLikedImages',
         JSON.stringify([...prevLikedImages, images])
       );
-
-      setNewLookDatabase((newLookDatabase) => newLookDatabase + 1);
-      console.log(newLookDatabase + 1);
     }
   };
 
@@ -190,29 +153,30 @@ function Like({ images }) {
         localStorage.getItem('likedImages') || '[]'
       );
 
+      // if (prevLikedImages) {
+      //   const deleteLikedImages = prevLikedImages.filter(
+      //     (item) => item.id !== images.id
+      //   );
+      console.log(images);
+
       localStorage.setItem(
         'likedImages',
         JSON.stringify([...prevLikedImages, images])
       );
+      // }
     }
-
-    // if (!authUser) {
-    //   localStorage.setItem(
-    //     'nonLoginLikedImages',
-    //     JSON.stringify([...prevNonLoginLikedImages, images])
-    //   );
-    // }
   };
-
   //선택된 이미지 로컬에 제거
   const deletelikedImages = () => {
     if (authUser) {
       const getLikedImages = JSON.parse(localStorage.getItem('likedImages'));
-      const deleteLikedImages = getLikedImages.filter(
-        (item) => item.id !== images.id
-      );
+      if (getLikedImages) {
+        const deleteLikedImages = getLikedImages.filter(
+          (item) => item.id !== images.id
+        );
 
-      localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
+        localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
+      }
     }
   };
 
@@ -222,9 +186,7 @@ function Like({ images }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {authUser ? '로' + lookDatabase.count : '비' + newLookDatabase}
-        {/* {newLookDatabase} */}
-        {/* {lookDatabase.count} /{newLookDatabase.count} */}
+        {authUser ? lookDatabase.count : ''}
       </div>
     </>
   );

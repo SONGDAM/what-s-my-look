@@ -44,7 +44,7 @@ function NavBar() {
       document.body.style.overflow = 'hidden';
     }
     if (localStorage.getItem('recoil-persist')) {
-      window.location.href = 'http://localhost:3000/liked';
+      window.location.href = 'http://localhost:3000/';
     }
   };
 
@@ -58,6 +58,13 @@ function NavBar() {
     document.body.style.overflow = 'unset';
   };
 
+  const handlerNonLoginLiked = () => {
+    setIsModalOn((prev) => !prev);
+
+    if (localStorage.getItem('recoil-persist')) {
+      window.location.href = 'http://localhost:3000/liked';
+    }
+  };
   return (
     <header>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
@@ -68,15 +75,24 @@ function NavBar() {
         </div>
         <div className='nav-content'>
           {window.location.pathname === '/liked' ? (
-            <button onClick={logout}>Logout</button>
+            <span onClick={logout}>Logout</span>
           ) : (
             <>
-              {authedUser !== null ? null : (
-                <span className='user-name'>{authedUser?.nickName}</span>
+              {authedUser ? (
+                <>
+                  {/* <span className='user-name'>{authedUser.nickName}님</span>{' '} */}
+                  &nbsp;
+                  <Link to={'/liked'}>Liked</Link>&nbsp;
+                  <button onClick={logout}>Logout</button>
+                </>
+              ) : (
+                <>
+                  {' '}
+                  <button onClick={validateUser}>Login</button> &nbsp;
+                  <button onClick={handlerNonLoginLiked}>Liked</button>
+                  <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
+                </>
               )}
-              <div onClick={validateUser}>Liked</div>
-
-              <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
             </>
           )}
         </div>
