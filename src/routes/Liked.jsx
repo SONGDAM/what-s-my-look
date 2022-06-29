@@ -8,9 +8,9 @@ import NavBar from '../components/NavBar';
 import Like from '../components/Like';
 import { useEffect } from 'react';
 import { authState } from '../recoil/authState';
-import { child, push, ref } from 'firebase/database';
+import { update, ref, push, child } from 'firebase/database';
 import { database } from '../components/firebase';
-import { update } from 'lodash';
+
 function Liked() {
   const getLikedImagesState = useRecoilValue(likedImagesState);
   const LikedImages = JSON.parse(getLikedImagesState); //로그인 좋아요
