@@ -1,0 +1,73 @@
+.progress-title {
+  display: block;
+  position: fixed;
+  margin-top: 17rem;
+  margin-left: 6rem;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.4rem;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.progress-border {
+  width: 70vw;
+  /* height: 1.4rem; */
+  height: 1rem;
+  border: 4px solid skyblue;
+  border-radius: 12px;
+}
+
+.progress-bar {
+  background-color: skyblue;
+  border-radius: 6px;
+  width: 0px;
+  height: 1rem;
+  animation: progres 4s infinite linear;
+}
+
+@keyframes progres {
+  0% {
+    width: 0%;
+  }
+  25% {
+    width: 50%;
+  }
+  50% {
+    width: 75%;
+  }
+  75% {
+    width: 85%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .progress-title {
+    font-size: 2.8rem;
+    margin-top: 16rem;
+    margin-left: 34rem;
+  }
+
+  .progress-border {
+    height: 1.4rem;
+  }
+
+  .progress-bar {
+    height: 1.4rem;
+  }
+}
+
+@media screen and (min-width: 2000px) {
+  .progress-title {
+    margin-top: 26rem;
+    margin-left: 64rem;
+  }
+}

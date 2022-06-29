@@ -6,9 +6,8 @@ import { update, ref, onValue, push, child, remove } from 'firebase/database';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
-import { cloneDeep } from 'lodash';
 
-// import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash';
 
 // import { nonLoginLikedImagesState } from '../recoil/apiCallSelector';
 
@@ -23,7 +22,7 @@ function Like({ images }) {
   const [isLike, setisLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState({});
   const [unAuthedUser, setUnAuthedUser] = useState(false);
-  const [newLookDatabase, setNewLookDatabase] = useState({});
+
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
   const getLikesUserReference = ref(
@@ -45,12 +44,6 @@ function Like({ images }) {
       setUnAuthedUser(true);
     }
   }, [authUser]);
-
-  useEffect(() => {
-    setNewLookDatabase(cloneDeep(lookDatabase.count));
-    // setNewLookDatabase(cloneDeep(lookDatabase));
-  }, [lookDatabase]);
-  // console.log(newLookDatabase.count === lookDatabase.count);
 
   useEffect(() => {
     const res = async () => {
@@ -79,6 +72,10 @@ function Like({ images }) {
       }
     });
   }, [getLikesUserReference, authUser, imageIndex]);
+
+  const newLookDatabase = cloneDeep(lookDatabase);
+
+  console.log(newLookDatabase.count === lookDatabase.count);
 
   // const test = { count: 1, id: 68, look: 'street', name: '17_8_s' };
 
@@ -139,12 +136,13 @@ function Like({ images }) {
         'nonLoginLikedImages',
         JSON.stringify([...prevLikedImages, images])
       );
-
-      setNewLookDatabase((newLookDatabase) => newLookDatabase + 1);
-      console.log(newLookDatabase + 1);
     }
   };
+  //ㅎㅇㅎㅇ
+  //안녕
+  // console.log(unAuthedUser);
 
+  // const { count } = lookDatabase;
   //좋아요 취소
   const downLike = () => {
     setisLike(false);
@@ -222,9 +220,7 @@ function Like({ images }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {authUser ? '로' + lookDatabase.count : '비' + newLookDatabase}
-        {/* {newLookDatabase} */}
-        {/* {lookDatabase.count} /{newLookDatabase.count} */}
+        {/* {lookDatabase.count} /{tempcount} */}
       </div>
     </>
   );
