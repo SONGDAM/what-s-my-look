@@ -27,13 +27,7 @@ function Like({ images }) {
   );
   const getCountReference = ref(database, `database/look/${imageIndex}`);
 
-  // const nonLoginLikedImage = useRecoilValue(nonLoginLikedImagesState);
-  // console.log(nonLoginLikedImage.length);
-  // useEffect(() => {
-  //   const nonLoginLikedImage =
-  //     JSON.parse(sessionStorage.getItem('nonLoginLikedImages')) || [];
-  //   setTempCount(nonLoginLikedImage.length);
-  // }, [isLike]);
+  console.log('please deploy');
 
   useEffect(() => {
     if (!authUser) {
