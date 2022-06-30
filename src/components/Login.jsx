@@ -6,7 +6,7 @@ import { authState } from '../recoil/authState';
 import '../styles/Modal.css';
 
 function Login() {
-  const [authedUser, setAuth] = useRecoilState(authState);
+  const [, setAuth] = useRecoilState(authState);
 
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -22,15 +22,6 @@ function Login() {
       window.location.href = 'http://localhost:3000/liked';
     });
   };
-
-  console.log(authedUser);
-
-  // const logout = () => {
-  //   signOut(auth).then(alert('logout!'));
-  //   localStorage.removeItem('recoil-persist');
-
-  //   navigate('/');
-  // };
 
   return (
     <div>
