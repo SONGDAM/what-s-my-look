@@ -12,6 +12,8 @@ function Home() {
     temp: '',
   });
 
+  console.log('hello world');
+
   useEffect(() => {
     const getWeather = async (position) => {
       const API_KEY = `6e3fd9c6824107fd354f165491f18092`;
