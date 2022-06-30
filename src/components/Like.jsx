@@ -7,10 +7,6 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
 
-import cloneDeep from 'lodash';
-
-// import { nonLoginLikedImagesState } from '../recoil/apiCallSelector';
-
 // 비로그인
 // 비로그인해서 좋아요를 눌리면 로그인 시 좋아요 한것들을 볼 수 있다 알림창 띄움
 // 좋아요 한 거 로컬에 비로그인용 좋아요 이미지 저장 (리코일)
@@ -72,16 +68,6 @@ function Like({ images }) {
       }
     });
   }, [getLikesUserReference, authUser, imageIndex]);
-
-  const newLookDatabase = cloneDeep(lookDatabase);
-
-  console.log(newLookDatabase.count === lookDatabase.count);
-
-  // const test = { count: 1, id: 68, look: 'street', name: '17_8_s' };
-
-  // const newTest = JSON.parse(JSON.stringify(test));
-
-  // console.log(newTest.count === test.count);
 
   //좋아요 클릭 시
   const toggleLike = () => {

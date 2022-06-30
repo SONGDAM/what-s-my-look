@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 import Loading from './components/Loading';
 
 ReactDOM.render(
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter>
     <RecoilRoot>
       <Suspense fallback={<Loading />}>
         <Routes>
