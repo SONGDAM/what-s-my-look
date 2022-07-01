@@ -25,6 +25,8 @@ function Home() {
         )
       ).json();
 
+      console.log('hello world');
+
       setWeather({
         city: json.name,
         temp: json.main.temp,
