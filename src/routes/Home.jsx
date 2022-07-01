@@ -19,8 +19,6 @@ function Home() {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
-      console.log('hello world');
-
       const json = await (
         await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
