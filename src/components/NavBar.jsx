@@ -9,7 +9,7 @@ import '../styles/Modal.css';
 import { modalState } from '../recoil/modalState';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { auth } from '../components/firebase';
+import { auth } from './firebase';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);

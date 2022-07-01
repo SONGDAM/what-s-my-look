@@ -1,9 +1,9 @@
-import { auth } from '../components/firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import google from '../assets/icon/google.png';
 import { useRecoilState } from 'recoil';
 import { authState } from '../recoil/authState';
 import '../styles/Modal.css';
+import { auth } from './firebase';
 
 function Login() {
   const [authedUser, setAuth] = useRecoilState(authState);

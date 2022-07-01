@@ -153,17 +153,10 @@ function Like({ images }) {
         localStorage.getItem('likedImages') || '[]'
       );
 
-      // if (prevLikedImages) {
-      //   const deleteLikedImages = prevLikedImages.filter(
-      //     (item) => item.id !== images.id
-      //   );
-      console.log(images);
-
       localStorage.setItem(
         'likedImages',
         JSON.stringify([...prevLikedImages, images])
       );
-      // }
     }
   };
   //선택된 이미지 로컬에 제거
@@ -186,7 +179,7 @@ function Like({ images }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {authUser ? lookDatabase.count : ''}
+        {/* {authUser ? lookDatabase.count : ''} */}
       </div>
     </>
   );
