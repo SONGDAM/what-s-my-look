@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAoncO2Mf0Hj0aN7VsQ9nMMN4P9Xkb95Sc',
-  authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
+  authDomain: 'what-s-my-look.firebaseapp.com',
   databaseURL: 'https://what-s-my-look-default-rtdb.firebaseio.com',
   projectId: 'what-s-my-look',
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
