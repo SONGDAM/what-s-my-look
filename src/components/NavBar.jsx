@@ -44,7 +44,7 @@ function NavBar() {
       document.body.style.overflow = 'hidden';
     }
     if (localStorage.getItem('recoil-persist')) {
-      window.location.href = 'http://localhost:3000/liked';
+      window.location.href = 'https://what-s-my-look.web.app/liked';
     }
   };
 
@@ -54,7 +54,7 @@ function NavBar() {
 
     //navigate('/');
     handleModal((prev) => !prev);
-    window.location.href = 'http://localhost:3000/';
+    window.location.href = 'https://what-s-my-look.web.app/';
     document.body.style.overflow = 'unset';
   };
 

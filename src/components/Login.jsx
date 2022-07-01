@@ -19,7 +19,7 @@ function Login() {
       };
 
       setAuth(user);
-      window.location.href = 'http://localhost:3000/liked';
+      window.location.href = 'http://what-s-my-look.web.app//liked';
     });
   };
 
