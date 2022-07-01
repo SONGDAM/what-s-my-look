@@ -4,7 +4,7 @@ import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: `${process.env.REACT_APP_API_KEY}`,
+  apiKey: 'AIzaSyAoncO2Mf0Hj0aN7VsQ9nMMN4P9Xkb95Sc',
   authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
   databaseURL: 'https://what-s-my-look-default-rtdb.firebaseio.com',
   projectId: 'what-s-my-look',
