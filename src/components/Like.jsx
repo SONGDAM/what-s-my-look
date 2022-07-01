@@ -27,8 +27,6 @@ function Like({ images }) {
   );
   const getCountReference = ref(database, `database/look/${imageIndex}`);
 
-  console.log('please deploy');
-
   useEffect(() => {
     if (!authUser) {
       setUnAuthedUser(true);
