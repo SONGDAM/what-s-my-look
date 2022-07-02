@@ -6,7 +6,7 @@ import '../styles/Modal.css';
 import { auth } from './firebase';
 
 function Login() {
-  const [authedUser, setAuth] = useRecoilState(authState);
+  const [, setAuth] = useRecoilState(authState);
 
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -19,18 +19,10 @@ function Login() {
       };
 
       setAuth(user);
+      // window.location.href = 'http://what-s-my-look.web.app/liked';
       window.location.href = 'http://localhost:3000/';
     });
   };
-
-  console.log(authedUser);
-
-  // const logout = () => {
-  //   signOut(auth).then(alert('logout!'));
-  //   localStorage.removeItem('recoil-persist');
-
-  //   navigate('/');
-  // };
 
   return (
     <div>

@@ -107,7 +107,6 @@ function Like({ images }) {
       );
     }
   };
-
   //좋아요 취소
   const downLike = () => {
     setisLike(false);
@@ -180,6 +179,7 @@ function Like({ images }) {
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
         {/* {authUser ? lookDatabase.count : ''} */}
+        {/* {lookDatabase.count} /{tempcount} */}
       </div>
     </>
   );
