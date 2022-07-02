@@ -6,6 +6,7 @@ import { update, ref, onValue, push, child, remove } from 'firebase/database';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
+import _ from 'lodash';
 
 function Like({ images }) {
   const [isLike, setisLike] = useState(false);
@@ -154,7 +155,7 @@ function Like({ images }) {
 
       localStorage.setItem(
         'likedImages',
-        JSON.stringify([...prevLikedImages, images])
+        JSON.stringify(_.uniqBy([...prevLikedImages, images], 'id'))
       );
     }
   };
@@ -178,8 +179,7 @@ function Like({ images }) {
         <button onClick={toggleLike}>
           <img src={isLike ? like : unLike} alt='' className='icon like' />
         </button>
-        {/* {authUser ? lookDatabase.count : ''} */}
-        {/* {lookDatabase.count} /{tempcount} */}
+        {authUser ? lookDatabase.count : ''}
       </div>
     </>
   );

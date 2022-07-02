@@ -24,6 +24,7 @@ function Liked() {
     const saveUserFirebase = (item) => {
       const imageIndex = item.id - 1;
       const getCountReference = ref(database, `database/look/${imageIndex}`);
+
       //likes안에 저장될 고유키 생성
       const newLikeKey = push(child(ref(database), `likes`)).key;
 
@@ -37,24 +38,24 @@ function Liked() {
       onValue(
         ref(database, `database/look/${imageIndex}/likes`),
         (snapshot) => {
+          //likes 객체가 있다면 같은 유저가 있는지 확인
           if (snapshot.exists()) {
             const user = Object.values(snapshot.val());
             if (user.map((item) => item.user === authUser.email)) {
               console.log('already exists...');
               return;
-            } else {
-              //유저 저장
-              const updates = {};
-              updates[`/database/look/${imageIndex}/likes/` + newLikeKey] =
-                likeData;
-              update(ref(database), updates);
-
-              //카운트+1
-              update(getCountReference, {
-                count: item.count + 1,
-              });
             }
           }
+          //likes객체가 없으면 유저 추가
+          const updates = {};
+          updates[`/database/look/${imageIndex}/likes/` + newLikeKey] =
+            likeData;
+          update(ref(database), updates);
+
+          //카운트+1
+          update(getCountReference, {
+            count: item.count + 1,
+          });
         }
       );
     };
@@ -64,7 +65,7 @@ function Liked() {
       //비로그인 좋아요 O & 로그인 좋아요 X
       if (!likedImages) {
         localStorage.setItem('likedImages', JSON.stringify(unAuthedLikeImage));
-        unAuthedLikeImage.forEach((item) => saveUserFirebase(item));
+        unAuthedLikeImage.map((item) => saveUserFirebase(item));
         //로컬로 옮기고 비로그인 세션 kill...
         sessionStorage.removeItem('nonLoginLikedImages');
         return;
@@ -82,7 +83,8 @@ function Liked() {
         dataArray = _.uniqBy(dataArray, 'id');
         dataArray = [...dataArray];
         localStorage.setItem('likedImages', JSON.stringify(dataArray));
-        dataArray.forEach((item) => saveUserFirebase(item));
+
+        Object.keys(dataArray).map((key) => saveUserFirebase(dataArray[key]));
 
         //로컬로 옮기고 비로그인 세션 kill...
         sessionStorage.removeItem('nonLoginLikedImages');
