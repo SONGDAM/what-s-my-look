@@ -1,12 +1,14 @@
-import { auth } from '../components/firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import google from '../assets/icon/google.png';
 import { useRecoilState } from 'recoil';
 import { authState } from '../recoil/authState';
 import '../styles/Modal.css';
+import { auth } from './firebase';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [, setAuth] = useRecoilState(authState);
+  const [authedUser, setAuthUser] = useRecoilState(authState);
+  const navigate = useNavigate();
 
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -18,8 +20,11 @@ function Login() {
         photo: result.user.photoURL,
       };
 
-      setAuth(user);
-      window.location.href = 'http://what-s-my-look.web.app/liked';
+      setAuthUser(user);
+
+      if (authedUser) {
+        navigate('https://what-s-my-look.web.app/');
+      }
     });
   };
 

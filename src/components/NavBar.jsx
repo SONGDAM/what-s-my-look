@@ -9,7 +9,7 @@ import '../styles/Modal.css';
 import { modalState } from '../recoil/modalState';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { auth } from '../components/firebase';
+import { auth } from './firebase';
 
 function NavBar() {
   const [isNavOn, setIsNavOn] = useState(false);
@@ -38,24 +38,27 @@ function NavBar() {
     }
   }, []);
 
-  const validateUser = () => {
-    if (authedUser === null && !localStorage.getItem('recoil-persist')) {
-      setIsModalOn((prev) => !prev);
-      document.body.style.overflow = 'hidden';
-    }
-    if (localStorage.getItem('recoil-persist')) {
-      window.location.href = 'https://what-s-my-look.web.app/liked';
-    }
-  };
-
   const logout = () => {
     signOut(auth).then(alert('logout!'));
     localStorage.removeItem('recoil-persist');
 
-    //navigate('/');
     handleModal((prev) => !prev);
     window.location.href = 'https://what-s-my-look.web.app/';
     document.body.style.overflow = 'unset';
+  };
+
+  const liked = () => {
+    window.location.href = 'https://what-s-my-look.web.app/liked';
+  };
+
+  const modalHandler = () => {
+    setIsModalOn((prev) => !prev);
+  };
+
+  const isUserAuthed = () => {
+    if (!authedUser) {
+      alert('로그인 후 이용해주세요.');
+    }
   };
 
   return (
@@ -68,15 +71,21 @@ function NavBar() {
         </div>
         <div className='nav-content'>
           {window.location.pathname === '/liked' ? (
-            <button onClick={logout}>Logout</button>
+            <span onClick={logout}>Logout</span>
           ) : (
             <>
-              {authedUser !== null ? null : (
-                <span className='user-name'>{authedUser?.nickName}</span>
+              {authedUser ? (
+                <>
+                  <button onClick={logout}>Logout</button>
+                  <button onClick={liked}>Liked</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={modalHandler}>Login</button>
+                  <button onClick={isUserAuthed}>Liked</button>
+                  <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
+                </>
               )}
-              <div onClick={validateUser}>Liked</div>
-
-              <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
             </>
           )}
         </div>

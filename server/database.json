@@ -1,7 +1,0 @@
-{
-  "host": "aws-db.ccapkgvzo7ui.ap-northeast-2.rds.amazonaws.com",
-  "user": "admin",
-  "password": "mydatabase",
-  "port": 3306,
-  "database": "aws_db"
-}
