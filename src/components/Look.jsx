@@ -14,6 +14,10 @@ function Look() {
   const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
+    if (temp >= 24) {
+      setNowTemp(27);
+      return;
+    }
     if (temp >= 23 && temp < 28) {
       setNowTemp(23);
       return;
