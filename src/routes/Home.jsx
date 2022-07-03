@@ -20,7 +20,6 @@ function Home() {
       const lon = position.coords.longitude;
 
       console.log('hello world');
-      console.log('please deploy');
 
       const json = await (
         await fetch(
