@@ -8,8 +8,9 @@ import { getImageApi } from '../recoil/apiCallSelector';
 function Look() {
   const lookList = ['casual', 'modern', 'street', 'romantic'];
   const images = useRecoilValue(getImageApi);
-  const temp = useContext(weatherStateContext);
-  const [nowTemp, setNowTemp] = useState(17);
+  const weather = useContext(weatherStateContext);
+  const temp = weather.temp;
+  const [nowTemp, setNowTemp] = useState(0);
   const [imgArray, setImgArray] = useState([]);
   const [isClick, setIsClick] = useState(false);
 
@@ -48,6 +49,7 @@ function Look() {
     }
   }, [temp]);
 
+  console.log(temp.temp);
   const defaultArray = Object.values(images).filter(
     (item) => item.temperature === nowTemp
   );
