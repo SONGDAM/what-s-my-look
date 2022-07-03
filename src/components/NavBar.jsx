@@ -38,35 +38,29 @@ function NavBar() {
     }
   }, []);
 
-  const validateUser = () => {
-    if (authedUser === null && !localStorage.getItem('recoil-persist')) {
-      setIsModalOn((prev) => !prev);
-      document.body.style.overflow = 'hidden';
-    }
-    if (localStorage.getItem('recoil-persist')) {
-      // window.location.href = 'https://what-s-my-look.web.app/liked';
-      window.location.href = 'http://localhost:3000/';
-    }
-  };
-
   const logout = () => {
     signOut(auth).then(alert('logout!'));
     localStorage.removeItem('recoil-persist');
 
-    //navigate('/');
     handleModal((prev) => !prev);
-    // window.location.href = 'https://what-s-my-look.web.app/';
-    window.location.href = 'http://localhost:3000/';
+    window.location.href = 'https://what-s-my-look.web.app/';
     document.body.style.overflow = 'unset';
   };
 
-  const handlerNonLoginLiked = () => {
-    setIsModalOn((prev) => !prev);
+  const liked = () => {
+    window.location.href = 'https://what-s-my-look.web.app/liked';
+  };
 
-    if (localStorage.getItem('recoil-persist')) {
-      window.location.href = 'http://localhost:3000/liked';
+  const modalHandler = () => {
+    setIsModalOn((prev) => !prev);
+  };
+
+  const isUserAuthed = () => {
+    if (!authedUser) {
+      alert('로그인 후 이용해주세요.');
     }
   };
+
   return (
     <header>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
@@ -82,16 +76,13 @@ function NavBar() {
             <>
               {authedUser ? (
                 <>
-                  {/* <span className='user-name'>{authedUser.nickName}님</span>{' '} */}
-                  &nbsp;
-                  <Link to={'/liked'}>Liked</Link>&nbsp;
                   <button onClick={logout}>Logout</button>
+                  <button onClick={liked}>Liked</button>
                 </>
               ) : (
                 <>
-                  {' '}
-                  <button onClick={validateUser}>Login</button> &nbsp;
-                  <button onClick={handlerNonLoginLiked}>Liked</button>
+                  <button onClick={modalHandler}>Login</button>
+                  <button onClick={isUserAuthed}>Liked</button>
                   <ModalPortal>{isModalOn && <Modal />}</ModalPortal>
                 </>
               )}

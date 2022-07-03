@@ -66,7 +66,7 @@ function Liked() {
       if (!likedImages) {
         localStorage.setItem('likedImages', JSON.stringify(unAuthedLikeImage));
         unAuthedLikeImage.map((item) => saveUserFirebase(item));
-        //로컬로 옮기고 비로그인 세션 kill...
+        //로컬로 옮기고 비로그인 세션 삭제
         sessionStorage.removeItem('nonLoginLikedImages');
         return;
       }
@@ -86,7 +86,7 @@ function Liked() {
 
         Object.keys(dataArray).map((key) => saveUserFirebase(dataArray[key]));
 
-        //로컬로 옮기고 비로그인 세션 kill...
+        //로컬로 옮기고 비로그인 세션 삭제
         sessionStorage.removeItem('nonLoginLikedImages');
       }
     }
