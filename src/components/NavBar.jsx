@@ -49,8 +49,8 @@ function NavBar() {
   };
 
   const liked = () => {
-    // window.location.href = 'https://what-s-my-look.web.app/liked';
     navigate('/liked');
+    window.location.replace = 'https://what-s-my-look.web.app/liked';
   };
 
   const modalHandler = () => {
