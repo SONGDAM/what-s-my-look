@@ -65,10 +65,11 @@ function NavBar() {
     <header>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
         <div className='nav-title'>
-          <Link to={'/'}>
+          <Link to='/'>
             <img src={logo} alt='' />
           </Link>
         </div>
+
         <div className='nav-content'>
           {window.location.pathname === '/liked' ? (
             <span onClick={logout}>Logout</span>
