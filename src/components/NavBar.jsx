@@ -7,7 +7,7 @@ import ModalPortal from './ModalPortal';
 import Modal from './Modal';
 import '../styles/Modal.css';
 import { modalState } from '../recoil/modalState';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
 
@@ -16,6 +16,7 @@ function NavBar() {
   const [isModalOn, setIsModalOn] = useRecoilState(modalState);
   const authedUser = useRecoilValue(authState);
   const handleModal = useSetRecoilState(modalState);
+  const navigate = useNavigate();
 
   const handleNav = () => {
     if (window.scrollY > 500) {
@@ -48,7 +49,8 @@ function NavBar() {
   };
 
   const liked = () => {
-    window.location.href = 'https://what-s-my-look.web.app/liked';
+    // window.location.href = 'https://what-s-my-look.web.app/liked';
+    navigate('/liked');
   };
 
   const modalHandler = () => {
@@ -65,10 +67,11 @@ function NavBar() {
     <header>
       <div className={isNavOn ? 'nav-actived' : 'none'}>
         <div className='nav-title'>
-          <Link to={'/'}>
+          <Link to='/'>
             <img src={logo} alt='' />
           </Link>
         </div>
+
         <div className='nav-content'>
           {window.location.pathname === '/liked' ? (
             <span onClick={logout}>Logout</span>

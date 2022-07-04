@@ -1,13 +1,13 @@
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './routes/Home';
 import Liked from './routes/Liked';
 import { Suspense } from 'react';
 import Loading from './components/Loading';
 
 ReactDOM.render(
-  <HashRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter>
     <RecoilRoot>
       <Suspense fallback={<Loading />}>
         <Routes>
@@ -16,6 +16,6 @@ ReactDOM.render(
         </Routes>
       </Suspense>
     </RecoilRoot>
-  </HashRouter>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
