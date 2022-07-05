@@ -92,7 +92,6 @@ function Liked() {
       }
     }
   }, [authUser, likedImages, unAuthedLikeImage]);
-  console.log(likedImages.length);
   return (
     <>
       <NavBar />

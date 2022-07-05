@@ -21,7 +21,33 @@ export const titleItems = [
   },
   {
     id: 85,
-    name: 'fw5',
+    name: 'fw4',
     src: require('../assets/titleImage/fw5.jpeg'),
+  },
+
+  {
+    id: 86,
+    name: 'fw5',
+    src: require('../assets/titleImage/test1.jpg'),
+  },
+  {
+    id: 87,
+    name: 'fw4',
+    src: require('../assets/titleImage/test2.jpg'),
+  },
+  {
+    id: 88,
+    name: 'fw5',
+    src: require('../assets/titleImage/test3.jpg'),
+  },
+  {
+    id: 89,
+    name: 'fw4',
+    src: require('../assets/titleImage/test4.jpg'),
+  },
+  {
+    id: 90,
+    name: 'fw4',
+    src: require('../assets/titleImage/test5.jpg'),
   },
 ];
