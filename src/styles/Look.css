@@ -2,22 +2,29 @@
   margin-top: 10rem;
   padding: 4.5rem 0 1.5rem 0;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  overflow-x: hidden;
 }
 
 .filter-button {
   /* font-family: 'NanumBarunGothic', sans-serif !important; */
   font-family: 'Frank Ruhl Libre', serif;
-  padding: 0.3rem 0.6rem;
-  margin: 0.4rem 0.5rem;
+  padding: 0.3rem 0.7rem;
+  margin: 0.4rem 0.3rem;
   background-color: white;
   border: 1px solid gray;
   border-radius: 30px;
   box-shadow: 3px 3px 1px -2px rgb(227, 227, 227);
-  font-size: 0.7rem;
+  font-size: 0.9rem;
+  color: black;
 }
 
 .filter-button:focus {
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.7rem;
   margin: 0.4rem 0.3rem;
   border: none !important;
   background-color: gray;
@@ -42,6 +49,7 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 3rem;
+  overflow-x: hidden;
   /* background-color: aqua; */
 }
 
@@ -60,16 +68,17 @@
   margin: 3.3rem 0 0.5rem 0;
 }
 
-.icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 @media screen and (min-width: 768px) {
+  .filter {
+    width: 55vw;
+    margin: auto auto;
+    text-align: center;
+    justify-content: space-evenly;
+  }
+
   .filter-button {
     padding: 0.6rem 2rem;
-    margin: 0.8rem 1rem;
+    margin: 0.8rem 0.6rem;
     font-size: 1.3rem;
     cursor: pointer;
     box-shadow: 5px 5px 9px -5px #969696;
@@ -77,7 +86,7 @@
 
   .filter-button:focus {
     padding: 0.6rem 2rem;
-    margin: 0.8rem 1rem;
+    margin: 0.8rem 0.6rem;
     font-size: 1.3rem;
     cursor: pointer;
     box-shadow: 5px 5px 9px -5px #969696;
@@ -123,11 +132,6 @@
 
   .image-box {
     margin-bottom: 1.4rem;
-  }
-
-  .icon-wrapper {
-    display: flex;
-    align-items: center;
   }
 
   .icon-item {

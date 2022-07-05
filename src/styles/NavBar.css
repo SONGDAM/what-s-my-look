@@ -24,11 +24,12 @@
 
 .nav-content {
   /* display: inline-block; */
+  width: 91%;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   position: fixed;
   top: 22px;
-  right: 2.8rem;
   font-size: 12px;
   cursor: pointer;
   text-decoration: none;
@@ -36,6 +37,7 @@
 
 .nav-content button {
   font-size: 0.8rem;
+  color: black;
 }
 
 .nav-title img {

@@ -49,7 +49,6 @@ function Look() {
     }
   }, [temp]);
 
-  console.log(temp);
   const defaultArray = Object.values(images).filter(
     (item) => item.temperature === nowTemp
   );
@@ -67,10 +66,10 @@ function Look() {
     <>
       <section>
         <div className='filter'>
-          {lookList.map((item, idx) => (
+          {lookList.map((item, index) => (
             <button
-              key={idx}
-              id={idx}
+              key={index}
+              id={index}
               onClick={onClick}
               className='filter-button'
             >
@@ -80,20 +79,16 @@ function Look() {
         </div>
         <div className='card'>
           {isClick
-            ? imgArray.map((item, idx) => (
-                <div key={idx} className='image-box'>
+            ? imgArray.map((item, index) => (
+                <div key={index} className='image-box'>
                   <img src={item.src} key={item.id} className='image' />
-                  <div className='icon-wrapper'>
-                    <Like images={item} />
-                  </div>
+                  <Like images={item} />
                 </div>
               ))
-            : defaultArray.map((item, idx) => (
-                <div key={idx} className='image-box'>
+            : defaultArray.map((item, index) => (
+                <div key={index} className='image-box'>
                   <img src={item.src} key={item.id} className='image' />
-                  <div className='icon-wrapper'>
-                    <Like images={item} />
-                  </div>
+                  <Like images={item} />
                 </div>
               ))}
         </div>

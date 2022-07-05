@@ -2,23 +2,19 @@ import unLike from '../assets/icon/empty-heart.png';
 import like from '../assets/icon/full-heart.png';
 import '../styles/like.css';
 import { useState, useEffect } from 'react';
-import { update, ref, onValue, push, child, remove } from 'firebase/database';
+import { update, ref, push, child, remove } from 'firebase/database';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authState';
 import { database } from './firebase';
 import _ from 'lodash';
 
 function Like({ images }) {
-  const [isLike, setisLike] = useState(false);
+  const [isLike, setIsLike] = useState(false);
   const [lookDatabase, setLookDatabase] = useState({});
   const [unAuthedUser, setUnAuthedUser] = useState(false);
 
   const imageIndex = images.id - 1;
   const authUser = useRecoilValue(authState);
-  const getLikesUserReference = ref(
-    database,
-    `database/look/${imageIndex}/likes`
-  );
   const getCountReference = ref(database, `database/look/${imageIndex}`);
 
   useEffect(() => {
@@ -40,23 +36,24 @@ function Like({ images }) {
 
   //페이지 로딩 시 유저가 좋아요 했으면 빨간 하트
   useEffect(() => {
-    onValue(getLikesUserReference, (snapshot) => {
-      if (snapshot.exists()) {
-        const user = Object.values(snapshot.val()); //유저이메일
-        //로그인했을 때 이미지별 좋아요 눌린 유저중에 로그인 유저랑 같은 사람이 있는지
-        if (authUser) {
-          if (user.find((item) => item.user === authUser.email)) {
-            setisLike(true);
-          }
+    if (lookDatabase.likes) {
+      //이미지별 좋아요한 유저목록
+      const user = Object.values(lookDatabase.likes);
+      //로그인 시 로그인 유저랑 같은 사람이 있는지
+      if (authUser) {
+        if (user.find((item) => item.user === authUser.email)) {
+          setIsLike(true);
+          return;
         }
       }
-    });
-  }, [getLikesUserReference, authUser, imageIndex]);
+    }
+    setIsLike(false);
+  }, [authUser, lookDatabase.likes]);
 
   //좋아요 클릭 시
   const toggleLike = () => {
     if (!authUser) {
-      alert('로그인 시 위시리스트에서 좋아요한 이미지를 확인하실 수 있습니다.');
+      alert('로그인 시 좋아요한 이미지를 확인하실 수 있습니다.');
       // return;
     }
 
@@ -72,7 +69,7 @@ function Like({ images }) {
 
   //좋아요
   const upLike = () => {
-    setisLike(true);
+    setIsLike(true);
 
     //로그인
     if (authUser) {
@@ -95,22 +92,11 @@ function Like({ images }) {
         count: lookDatabase.count + 1,
       });
     }
-
-    //비로그인
-    if (unAuthedUser) {
-      const prevLikedImages = JSON.parse(
-        sessionStorage.getItem('nonLoginLikedImages') || '[]'
-      );
-
-      sessionStorage.setItem(
-        'nonLoginLikedImages',
-        JSON.stringify([...prevLikedImages, images])
-      );
-    }
   };
+
   //좋아요 취소
   const downLike = () => {
-    setisLike(false);
+    setIsLike(false);
 
     if (authUser && lookDatabase.likes) {
       const toArray = Object.values(lookDatabase.likes);
@@ -129,6 +115,46 @@ function Like({ images }) {
         count: lookDatabase.count - 1,
       });
     }
+  };
+
+  //선택된 이미지 로컬에 추가로컬에 추가
+  const addLikedImages = () => {
+    const prevLikedImages = JSON.parse(
+      localStorage.getItem('likedImages') || '[]'
+    );
+
+    //로그인
+    if (authUser) {
+      localStorage.setItem(
+        'likedImages',
+        JSON.stringify(_.uniqBy([...prevLikedImages, images], 'id'))
+      );
+      return;
+    }
+
+    //비로그인
+    if (unAuthedUser) {
+      sessionStorage.setItem(
+        'nonLoginLikedImages',
+        JSON.stringify([...prevLikedImages, images])
+      );
+    }
+  };
+
+  //선택된 이미지 로컬에 제거
+  const deletelikedImages = () => {
+    //로그인
+    if (authUser) {
+      const getLikedImages = JSON.parse(localStorage.getItem('likedImages'));
+      if (getLikedImages) {
+        const deleteLikedImages = getLikedImages.filter(
+          (item) => item.id !== images.id
+        );
+
+        localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
+      }
+      return;
+    }
 
     //비로그인
     if (unAuthedUser) {
@@ -146,38 +172,11 @@ function Like({ images }) {
     }
   };
 
-  //선택된 이미지 로컬에 추가로컬에 추가
-  const addLikedImages = () => {
-    if (authUser) {
-      const prevLikedImages = JSON.parse(
-        localStorage.getItem('likedImages') || '[]'
-      );
-
-      localStorage.setItem(
-        'likedImages',
-        JSON.stringify(_.uniqBy([...prevLikedImages, images], 'id'))
-      );
-    }
-  };
-  //선택된 이미지 로컬에 제거
-  const deletelikedImages = () => {
-    if (authUser) {
-      const getLikedImages = JSON.parse(localStorage.getItem('likedImages'));
-      if (getLikedImages) {
-        const deleteLikedImages = getLikedImages.filter(
-          (item) => item.id !== images.id
-        );
-
-        localStorage.setItem('likedImages', JSON.stringify(deleteLikedImages));
-      }
-    }
-  };
-
   return (
     <>
       <div className='like-container'>
         <button onClick={toggleLike}>
-          <img src={isLike ? like : unLike} alt='' className='icon like' />
+          <img src={isLike ? like : unLike} alt='' className='icon' />
         </button>
         {authUser ? lookDatabase.count : ''}
       </div>

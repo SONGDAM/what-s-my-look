@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import '../styles/global.css';
 import {
   likedImagesState,
   nonLoginLikedImagesState,
@@ -95,20 +96,22 @@ function Liked() {
   return (
     <>
       <NavBar />
-      <div className='card likedPage'>
-        {likedImages ? (
-          Object.values(likedImages).map((item, idx) => (
-            <div key={idx}>
-              <img src={item.src} key={item.id} className='image' />
-              <div className='icon-wrapper'>
-                <Like images={item} />
+      <section>
+        <div className='card likedPage'>
+          {likedImages ? (
+            Object.values(likedImages).map((item, idx) => (
+              <div key={idx}>
+                <img src={item.src} key={item.id} className='image' />
+                <div className='icon-wrapper'>
+                  <Like images={item} />
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <div>이미지에 좋아요를 눌러보세요</div>
-        )}
-      </div>
+            ))
+          ) : (
+            <div>이미지에 좋아요를 눌러보세요</div>
+          )}
+        </div>
+      </section>
     </>
   );
 }
