@@ -24,7 +24,7 @@
 
 .nav-content {
   /* display: inline-block; */
-  width: 91%;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
