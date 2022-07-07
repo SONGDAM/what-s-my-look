@@ -70,15 +70,16 @@
 
 @media screen and (min-width: 768px) {
   .filter {
-    width: 55vw;
+    /* display: block; */
+    /* width: 55vw; */
     margin: auto auto;
     text-align: center;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   .filter-button {
     padding: 0.6rem 2rem;
-    margin: 0.8rem 0.6rem;
+    margin: 0.8rem 1rem;
     font-size: 1.3rem;
     cursor: pointer;
     box-shadow: 5px 5px 9px -5px #969696;
