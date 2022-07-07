@@ -39,15 +39,22 @@ function Liked() {
       onValue(
         ref(database, `database/look/${imageIndex}/likes`),
         (snapshot) => {
-          //likes 객체가 있다면 같은 유저가 있는지 확인
           if (snapshot.exists()) {
             const user = Object.values(snapshot.val());
-            if (user.map((item) => item.user === authUser.email)) {
-              console.log('already exists...');
+            if (user.map((item) => item.user !== authUser.email)) {
+              const updates = {};
+              updates[`/database/look/${imageIndex}/likes/` + newLikeKey] =
+                likeData;
+              update(ref(database), updates);
+
+              //카운트+1
+              update(getCountReference, {
+                count: item.count + 1,
+              });
               return;
             }
+            console.log('already exists...');
           }
-          //likes객체가 없으면 유저 추가
           const updates = {};
           updates[`/database/look/${imageIndex}/likes/` + newLikeKey] =
             likeData;

@@ -43,11 +43,13 @@ function NavBar() {
     localStorage.removeItem('recoil-persist');
 
     handleModal((prev) => !prev);
+    // window.location.href = 'http://localhost:3000';
     window.location.href = 'https://what-s-my-look.web.app/';
     document.body.style.overflow = 'unset';
   };
 
   const liked = () => {
+    window.location.href = 'http://localhost:3000/liked';
     window.location.href = 'https://what-s-my-look.web.app/liked';
   };
 
