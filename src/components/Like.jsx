@@ -47,24 +47,24 @@ function Like({ images }) {
         }
       }
     }
-    setIsLike(false);
+    // setIsLike(false);
   }, [authUser, lookDatabase.likes]);
 
   //좋아요 클릭 시
   const toggleLike = () => {
     if (!authUser) {
-      alert('로그인 시 좋아요한 이미지를 확인하실 수 있습니다.');
-      // return;
+      if (!isLike) {
+        alert('로그인 시 좋아요한 이미지를 확인하실 수 있습니다.');
+      }
     }
 
-    if (isLike) {
-      downLike();
-      deletelikedImages();
-
+    if (!isLike) {
+      upLike();
+      addLikedImages();
       return;
     }
-    upLike();
-    addLikedImages();
+    downLike();
+    deletelikedImages();
   };
 
   //좋아요
@@ -117,9 +117,9 @@ function Like({ images }) {
     }
   };
 
-  //선택된 이미지 로컬에 추가로컬에 추가
+  //선택된 이미지 로컬에 추가
   const addLikedImages = () => {
-    const prevLikedImages = JSON.parse(
+    const prevLocalLike = JSON.parse(
       localStorage.getItem('likedImages') || '[]'
     );
 
@@ -127,13 +127,16 @@ function Like({ images }) {
     if (authUser) {
       localStorage.setItem(
         'likedImages',
-        JSON.stringify(_.uniqBy([...prevLikedImages, images], 'id'))
+        JSON.stringify(_.uniqBy([...prevLocalLike, images], 'id'))
       );
       return;
     }
-
     //비로그인
     if (unAuthedUser) {
+      const prevLikedImages = JSON.parse(
+        sessionStorage.getItem('nonLoginLikedImages') || '[]'
+      );
+
       sessionStorage.setItem(
         'nonLoginLikedImages',
         JSON.stringify([...prevLikedImages, images])
